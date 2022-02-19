@@ -9,14 +9,18 @@
 .buttons {
   display: flex;
   justify-content: space-between;
-  padding: 20px 50px; 
+  padding: 25px 60px; 
+}
+
+.btn:hover {
+  cursor: pointer;
 }
 
 .game {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px;
+  margin: 20px 40px 0 40px;
   margin-bottom: 0;
   height: 500px;
   border: 3px solid green;
@@ -37,18 +41,49 @@
 }
 
 .grid-wrapper {
-  border: 2px solid black;
+  border: 2px solid pink;
 }
 
 .grid {
   display: flex;
   flex-wrap: wrap;
-  border: 2px solid grey;
+  border: 2px solid purple;
   height: 500px;
   width: 800px;
 }
 
 .cell {
-  border: 1px solid pink;
+  border: 2px solid black;
   width: 12.5%;
+}
+
+/* no border for top row of cells */
+div[data-id="0"], 
+div[data-id="1"],
+div[data-id="2"],
+div[data-id="3"], 
+div[data-id="4"],
+div[data-id="5"],
+div[data-id="6"],
+div[data-id="7"] {
+  border: 1px dashed #ededed;
+  border-bottom: 2px solid black;
+}
+
+.cell:hover {
+  cursor: pointer;
+}
+
+#orange {
+  background-image: url('../images/bball_orange-cropped.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 80%;
+}
+
+#blue {
+  background-image: url('../images/bball_blue-cropped.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 78%;
 }
