@@ -2,67 +2,86 @@
 // ---------------------  Basketball Connect 4  --------------------- //
 // ------------------------------------------------------------------ //
 
-// 0) Create a (flex) grid
-  // gridWidth = 8;
-  // gridHeight = 5;
-  // vertical = gridWidth;   // +-8
-  // horizontal = 1;
-  // diagUp = gridWidth - 1;  // +-7
-  // diagDown = gridWidth + 1 // +-9
-  // // 8*6 (extra row at the top for ball to hover)
-  // grid = gridWidth * (gridHeight + 1)
+const grid = document.querySelector('.grid');
+const button1player = document.querySelector('.mode1player');
+const button2players = document.querySelector('.mode2players');
 
-// 1) Show the grid
+// Declare fixed variables
+const gridWidth = 8;
+const gridHeight = 5;
+const vertical = gridWidth;   // +-8
+const horizontal = 1;
+const diagUp = gridWidth - 1;  // +-7
+const diagDown = gridWidth + 1 // +-9
+// 8*6 (extra row at the top for ball to hover)
+const numOfCells = gridWidth * (gridHeight + 1)
+
+// 0) Create a (flex) grid and 1) show it
+for (let i = 0; i < numOfCells; i++) {
+  let cellDiv = document.createElement('div');
+  cellDiv.classList.add('cell');
+  cellDiv.setAttribute('data-id', i);
+  grid.appendChild(cellDiv);
+}
+
+const cells = document.querySelectorAll('.cell');  // can only be brought in once html has these
 
 // 1.25) Create an overview of the grid
 // this should probably be written programmatically 
-  // const gridOverview = {
-  //   columns: {
-  //     // column number = cellNum % 8
-  //     column0: [8, 16, 24, 32, 40],  // left-most col
-  //     column1: [9, 17, 25, 33, 41],
-  //     column2: [10, 18, 26, 34, 42],
-  //     column3: [11, 19, 27, 35, 43],
-  //     column4: [12, 20, 28, 36, 44],
-  //     column5: [13, 21, 29, 37, 45],
-  //     column6: [14, 22, 30, 38, 46],
-  //     column7: [15, 23, 31, 39, 47],  // right-most col
-  //   },
-  //   rows: {
-  //     // row num = Math.floor(cellNum / 8) - 1
-  //     row0: [8, 9, 10, 11, 12, 13, 14, 15],  // top row
-  //     row1: [16, 17, 18, 19, 20, 21, 22, 23],
-  //     row2: [24, 25, 26, 27, 28, 29, 30, 31],
-  //     row3: [32, 33, 34, 35, 36, 37, 38, 39],
-  //     row4: [40, 41, 42, 43, 44, 45, 46, 47],  // bottom row
-  //   },
-  //   diagonalUphill: {  // y=x
-  //     // diagnum = (cellNum-11) % 7
-  //     diagUp0: [11, 18, 25, 32],  // first one from left with >=4
-  //     diagUp1: [12, 19, 26, 33, 40],
-  //     diagUp2: [13, 20, 27, 34, 41],
-  //     diagUp3: [14, 21, 28, 35, 42],
-  //     diagUp4: [15, 22, 29, 36, 43],
-  //     diagUp5: [23, 30, 37, 44],
-  //   },
-  //   diagonalDownhill: {  // y=-x
-  //     // diagnum = (cellNum-7) % 9
-  //     diagDown0: [16, 25, 34, 43],  // first one from left with >=4
-  //     diagDown1: [8, 17, 26, 35, 44],
-  //     diagDown2: [9, 18, 27, 36, 45],
-  //     diagDown3: [10, 19, 28, 37, 46],
-  //     diagDown4: [11, 20, 29, 38, 47],
-  //     diagDown5: [12, 21, 30, 39],
-  //   }
-  // }
-  
-  // 1.5) Add event listeners to HTML buttons (1-player mode or 2-player mode)
-  //       --- User (orange) always goes first ---
-  //       If 2-player mode clicked, PLAY ENTIRE GAME (steps 2-6)
-  //       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
-  
-  // 1.75) Declare ball = orange (will switch to blue for other player)
+const gridOverview = {
+  columns: {
+    // column number = cellNum % 8
+    column0: [8, 16, 24, 32, 40],  // left-most col
+    column1: [9, 17, 25, 33, 41],
+    column2: [10, 18, 26, 34, 42],
+    column3: [11, 19, 27, 35, 43],
+    column4: [12, 20, 28, 36, 44],
+    column5: [13, 21, 29, 37, 45],
+    column6: [14, 22, 30, 38, 46],
+    column7: [15, 23, 31, 39, 47],  // right-most col
+  },
+  rows: {
+    // row num = Math.floor(cellNum / 8) - 1
+    row0: [8, 9, 10, 11, 12, 13, 14, 15],  // top row
+    row1: [16, 17, 18, 19, 20, 21, 22, 23],
+    row2: [24, 25, 26, 27, 28, 29, 30, 31],
+    row3: [32, 33, 34, 35, 36, 37, 38, 39],
+    row4: [40, 41, 42, 43, 44, 45, 46, 47],  // bottom row
+  },
+  diagonalUphill: {  // y=x
+    // diagUpnum = (cellNum-11) % 7
+    diagUp0: [11, 18, 25, 32],  // first one from left with >=4
+    diagUp1: [12, 19, 26, 33, 40],
+    diagUp2: [13, 20, 27, 34, 41],
+    diagUp3: [14, 21, 28, 35, 42],
+    diagUp4: [15, 22, 29, 36, 43],
+    diagUp5: [23, 30, 37, 44],
+  },
+  diagonalDownhill: {  // y=-x
+    // diagDownnum = (cellNum-7) % 9
+    diagDown0: [16, 25, 34, 43],  // first one from left with >=4
+    diagDown1: [8, 17, 26, 35, 44],
+    diagDown2: [9, 18, 27, 36, 45],
+    diagDown3: [10, 19, 28, 37, 46],
+    diagDown4: [11, 20, 29, 38, 47],
+    diagDown5: [12, 21, 30, 39],
+  }
+}
 
+// 1.5) Add event listeners to HTML buttons (1-player mode or 2-player mode)
+//       --- User (orange) always goes first ---
+//       If 2-player mode clicked, PLAY ENTIRE GAME (steps 2-6)
+//       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
+button1player.addEventListener('click', () => {
+  console.log('1-player mode selected!')
+})
+
+button2players.addEventListener('click', () => {
+  console.log('2-player mode selected!')
+})
+
+// 1.75) Declare ball = orange (will switch to blue for other player)
+let ballColour = 'orange';
 
 // 2) Add an event listener to each column of the grid - console log 
 //    the column of grid clicked on. 
@@ -72,7 +91,20 @@
     // ? hmm probs latter...
     // Wrap each entire turn inside event listener (steps 3 & 4)
 
-    // FUNCTION FOR STEP 3
+cells.forEach((cell) => {
+  cell.addEventListener('click', (event) => {
+    console.log('clicked');
+    const cellNum = event.target.getAttribute('data-id');
+    console.log('cell number:', cellNum);
+    const colNum = event.target.getAttribute('data-id') % 8;
+    console.log('column number:', colNum);
+  });
+  
+  cell.addEventListener('click', verifyPlaceCheck);
+
+})
+
+// FUNCTION FOR STEP 3
 // 3) Check if that column is already partially filled (if the bottom 
 //    row of that col is filled, then if second bottom, etc...)
 //      - if all rows filled (all have a class of filled), clicking on 
@@ -81,11 +113,96 @@
 //        'filled' class), get the first empty cell number and add the 
 //        ball there - ANIMATE KEYFRAME to have the ball slide down to 
 //        the first empty cell
-    // if column 0 selected: check if cell 40 is filled
-    //                            (classList.contains('filled')?)
-    //                       if no, put ball there --> cell 40 display ball
-    //                            (cell40=filled)
-    //                       if yes, then check if 32 is filled ...
+// if column 0 selected: check if cell 40 is filled
+//                            (classList.contains('filled')?)
+//                       if no, put ball there --> cell 40 display ball
+//                            (cell40=filled)
+//                       if yes, then check if 32 is filled ...
+
+function verifyPlaceCheck(event) {
+  const colNum = event.target.getAttribute('data-id') % 8;
+  // Doing STEP 3 here:
+  const colContents = gridOverview.columns[`column${colNum}`].sort((a,b)=>b-a);  // modifies original gridOverview
+  console.log(`colContents of col ${colNum}: ${colContents}`);
+  // Get first available cell in that column:
+  
+  let firstAvailableCell = colContents.find((cell) => {
+    return !document.querySelector(`div[data-id='${cell}']`).classList.contains('filled');
+  })
+
+  if (!firstAvailableCell) {
+    console.log('column FULL!')
+  } else {
+    console.log('firstAvailableCell:', firstAvailableCell);
+    let cellToFill = document.querySelector(`div[data-id='${firstAvailableCell}']`);
+    cellToFill.classList.add('filled');
+    cellToFill.setAttribute('id', ballColour);
+
+    // Doing STEP 4 here:
+    const lastPlayedCell = firstAvailableCell; // 4.0.1
+    // 4.0.2
+    const rowNum = Math.floor(lastPlayedCell / 8) - 1;
+    const diagUpNum = (lastPlayedCell - 11) % 7;
+    const diagDownNum = (lastPlayedCell - 7) % 9;
+    console.log(`Last played cell is: Row ${rowNum}, Col ${colNum}, DiagUp ${diagUpNum} and DiagDown ${diagDownNum}`);
+    // 4.0.3
+    const colCells = gridOverview.columns[`column${colNum}`];
+    const rowCells = gridOverview.rows[`row${rowNum}`];
+    const diagUpCells = diagUpNum < 6 ? gridOverview.diagonalUphill[`diagUp${diagUpNum}`] : null;
+    const diagDownCells = diagDownNum < 6 ? gridOverview.diagonalDownhill[`diagDown${diagDownNum}`] : null;
+    console.log(`Contents of last placed cell: row ${rowCells}, col ${colCells}, diagUp ${diagUpCells} and diagDown ${diagDownCells}`)
+
+    // IF MORE THAN 6 CELLS FILLED IN WHOLE GRID:
+    // 4.0.4: Get all cell numbers that have ballColour ids:
+    const playerXElements = document.querySelectorAll(`#${ballColour}`);
+    // console.log(`all ${ballColour} elements: ${playerXElements}`);
+    // To map over nodelist: first convert to array:
+    const playerXCells = Array.from(playerXElements).map((element) => element.dataset.id);
+    console.log(`${ballColour} Cells: ${playerXCells}`);
+    // ----- 4.0.5) ----- //
+    // horizontal check:  // will always have row contents
+    console.log('orangeCells:', playerXCells, 'row cells:', rowCells)
+    let xxx = rowCells.filter((rowCell) => playerXCells.includes(String(rowCell))).sort();
+    console.log(xxx)
+    let differences = [];
+    for (let i = 0; i < xxx.length-1; i++) {
+      differences.push(xxx[i+1]-xxx[i]);
+    }
+    // Match consecutive 1s precisely 3 or more times:
+    if (differences.join('').match(/1{3,}/g) >= 1) {
+      console.log(`${ballColour} is the WINNER!!! (horizontal)`);
+      // window.alert(`${ballColour} has WON!`);
+    } else {
+      // DONE: vertical check:  // will always have column contents
+      console.log('orangeCells:', playerXCells, 'col cells:', colCells)
+      xxx = colCells.filter((colCell) => playerXCells.includes(String(colCell))).sort();
+      console.log(xxx)
+      if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 24) {
+        console.log(`${ballColour} is the WINNER!!! (vertical)`)
+      } else {
+        //diag up:
+        if (diagUpCells) {   // could be undefined
+          console.log('orangeCells:', playerXCells, 'diagUp cells:', diagUpCells)
+          xxx = diagUpCells.filter((diagUpCell) => playerXCells.includes(String(diagUpCell))).sort();  
+          if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) {
+            console.log(`${ballColour} is the WINNER!!! (diagUp)`)
+          } else {
+            if (diagDownCells) {
+              console.log('orangeCells:', playerXCells, 'diagDown cells:', diagDownCells)
+              xxx = diagDownCells.filter((diagDownCell) => playerXCells.includes(String(diagDownCell))).sort();    
+              if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 27) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 36)) {
+                console.log(`${ballColour} is the WINNER!!! (diagDown)`)
+            }
+          }
+        }
+      }
+    }
+  } 
+  ballColour = ballColour==='orange' ? 'blue' : 'orange';
+  console.log('ballColour', ballColour)
+
+  }
+}
 
 
     // FUNCTION
@@ -136,7 +253,11 @@
 
 // 4.2) If no, move onto step 5
 
+
+
 // 5) change colour of ball (ball = blue);
+// ballColour === 'orange' ? 'blue' : 'orange';
+// console.log(`Ball colour changed to ${ballColour}`) 
 
 // 5.1) ---------- IF 1-PLAYER GAME ----------
      // Computer to generate a move: Get random column: Math.floor(Math.random()*8)
