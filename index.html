@@ -4,9 +4,32 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="./styles/main.css">
+  <title>Basketball Connect 4</title>
 </head>
+<header>
+  <h1>Basketball Connect 4</h1>
+</header>
 <body>
-  
+  <section class="buttons">
+    <div class="play-mode">
+      <button>1-Player Mode</button>
+      <button>2-Player Mode</button>
+    </div>
+    <div class="game-controls">
+      <button>New Game</button>
+      <button>New Tournament</button>
+    </div>
+  </section>
+  <section class="game">
+    <div class="player-1-image"></div>
+    <div class="grid-wrapper">
+      <div class="grid">
+        <!-- autogenerate 48 <div class='cell'></div>s -->
+      </div>
+    </div>
+    <div class="player-2-image"></div>
+  </section>
+  <script src="./scripts/app.js"></script>
 </body>
 </html>
