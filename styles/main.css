@@ -92,7 +92,7 @@ h1 {
 }
 
 .grid {
-  /* background-image: url('../images/court_bball6_cropped.jpeg'); */
+  background-image: url('../images/court_bball6_cropped.jpeg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top 80px right 0;
@@ -101,13 +101,18 @@ h1 {
   flex-wrap: wrap;
   border: 2px solid purple;
   height: 500px;
-  width: 800px;
+  width: 837px;
   /* position: relative; */
 }
 
 .cell {
-  border: 2px solid black;
-  width: 12.5%;
+  /* border: 2px solid black; */
+  background-color: rgba(148, 148, 148, 0.8);
+  /* background-color: grey; */
+  /* border: 3px dashed rbga(255,255,255,0.1); */
+  /* border: 3px dashed black; */
+  width: 100px;
+  margin: 2px;
 }
 
 /* div#orange.hovered */
@@ -118,7 +123,6 @@ h1 {
   background-position: center;
   background-size: 80%;
   opacity: 30%;
-  z-index: -1;
 }
 
 .hovered-blue {
@@ -140,6 +144,7 @@ div[data-id="6"],
 div[data-id="7"] {
   border: 1px dashed #ededed;
   border-bottom: 2px solid black;
+  background-color: #fff;
 }
 
 .cell:hover {
@@ -181,7 +186,6 @@ div[data-id="7"] {
   }
   50% {
     background-size: 135%;
-    /* z-index: 1; */
   }
   100% {
     background-size: 80%;

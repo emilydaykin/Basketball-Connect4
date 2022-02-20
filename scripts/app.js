@@ -61,6 +61,7 @@ let gameStatus;
 let turn = 'player'; // or 'computer'
 let currentScoreP1 = 0;
 let currentScoreP2 = 0;
+let scoreUpdated = false;
 
 button2players.addEventListener('click', () => {
   if (!modeSelected) {
@@ -130,12 +131,14 @@ function playGame() {
 }
 
 function updateScore() {
-  if (winner === 'orange') {
+  if (winner === 'orange' && !scoreUpdated) {
     currentScoreP1++;
+    scoreUpdated = true;
     console.log(`Score is now ${currentScoreP1} for player 1!`)
     player1Score.innerText = currentScoreP1;
-  } else if (winner === 'blue') {
+  } else if (winner === 'blue' && !scoreUpdated) {
     currentScoreP2++;
+    scoreUpdated = true;
     console.log(`Score is now ${currentScoreP2} for player 2!`)
     player2Score.innerText = currentScoreP2;
   } 
@@ -144,6 +147,7 @@ function updateScore() {
 function ifNewGameClick() {
   newGameBtn.addEventListener('click', () => {
     // Once it can be clicked on (when there is a winner):
+    scoreUpdated = false;
     winnerAnnounced.innerText = '';
     createOrResetGrid();
     cells = document.querySelectorAll('.cell');
@@ -161,7 +165,9 @@ function ifNewGameClick() {
 }
 
 newTournaBtn.addEventListener('click', () => {
-  window.location.reload();
+  if (window.confirm("Are you sure you want to start a new tournament? This will reset the scoreboard, and you'll have to reselect a game mode.")) {
+    window.location.reload();
+  }
 })
 
 function addEventListenersToEachCell() {
@@ -187,6 +193,7 @@ function addEventListenersToEachCell() {
 
 function checkGameStatus() {
   if (winner) {
+    // scoreUpdated = false;
     gameStatus = 'ended';
     newGameBtn.disabled = false;
     newTournaBtn.disabled = false;
@@ -238,11 +245,13 @@ function ballDisappearOnTop(event) {
 //                       if yes, then check if 32 is filled ...
 
 function verifyPlaceCheck(event) {
-  gameStatus = 'ongoing';
-  if (!winner) {
-    let colNum = event.target.getAttribute('data-id') % 8;
-    verifyPlaceCheckMANPOWER(colNum);    
-  } 
+  // gameStatus = 'ongoing';
+  if (gameStatus !== 'ended') {  // 'null' or 'ongoing'
+    if (!winner) {
+      let colNum = event.target.getAttribute('data-id') % 8;
+      verifyPlaceCheckMANPOWER(colNum);    
+    } 
+  }
   console.log('GAME-STATUS:', gameStatus)
 }
 
