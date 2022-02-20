@@ -16,6 +16,13 @@
   cursor: pointer;
 }
 
+/* buttons */
+.new-game:disabled, 
+.new-tournament:disabled, 
+.mode2players:disabled {
+  cursor: not-allowed;
+}
+
 .game {
   display: flex;
   justify-content: center;

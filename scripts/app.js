@@ -1,11 +1,19 @@
 // ------------------------------------------------------------------ //
 // ---------------------  Basketball Connect 4  --------------------- //
 // ------------------------------------------------------------------ //
+// BUGS to fix:
+// - when hovering over FIRST (hidden) row, the ball spazzes
+// - after cell clicked, if mouse stays on same cell, ball doesnt 
+//   appear at the top
+
+// document.getElementById('my-input-id').disabled = false;
+// button2players.disabled = false;
 
 const grid = document.querySelector('.grid');
 const button1player = document.querySelector('.mode1player');
 const button2players = document.querySelector('.mode2players');
 const winnerAnnounced = document.querySelector('.winner-announced');
+const newGameBtn = document.querySelector('.new-game');
 
 // Declare fixed variables
 const gridWidth = 8;
@@ -18,14 +26,19 @@ const diagDown = gridWidth + 1 // +-9
 const numOfCells = gridWidth * (gridHeight + 1)
 
 // 0) Create a (flex) grid and 1) show it
-for (let i = 0; i < numOfCells; i++) {
-  let cellDiv = document.createElement('div');
-  cellDiv.classList.add('cell');
-  cellDiv.setAttribute('data-id', i);
-  grid.appendChild(cellDiv);
+function createOrResetGrid() {
+  grid.innerHTML = '';  // empty (reset) grid contents
+  for (let i = 0; i < numOfCells; i++) {
+    let cellDiv = document.createElement('div');
+    cellDiv.classList.add('cell');
+    cellDiv.setAttribute('data-id', i);
+    grid.appendChild(cellDiv);
+  }
 }
 
-const cells = document.querySelectorAll('.cell');  // can only be brought in once html has these
+createOrResetGrid();
+
+let cells = document.querySelectorAll('.cell');  // can only be brought in once html has these
 
 // 1.25) Create an overview of the grid
 // this should probably be written programmatically 
@@ -73,13 +86,25 @@ const gridOverview = {
 //       --- User (orange) always goes first ---
 //       If 2-player mode clicked, PLAY ENTIRE GAME (steps 2-6)
 //       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
+let modeSelected;
 button1player.addEventListener('click', () => {
-  console.log('1-player mode selected!')
+  if (!modeSelected) {
+    console.log('1-player mode selected!')
+    modeSelected = '1player'
+    // disable button for two player mode:
+    button2players.disabled = true;
+  }
 })
 
 button2players.addEventListener('click', () => {
-  console.log('2-player mode selected!')
+  if (!modeSelected) {
+    console.log('2-player mode selected!')
+    modeSelected = '2player'
+    // disable button for two player mode:
+    button1player.disabled = true;
+  }
 })
+
 
 // 1.75) Declare ball = orange (will switch to blue for other player)
 let ballColour = 'orange';
@@ -93,21 +118,37 @@ let ballColour = 'orange';
     // Wrap each entire turn inside event listener (steps 3 & 4)
 
 let winner;
-cells.forEach((cell) => {
-  
-  cell.addEventListener('mouseover', ballAppearOnTop);
-  cell.addEventListener('mouseleave', ballDisappearOnTop);
-  cell.addEventListener('click', (event) => {
-    console.log('clicked');
-    const cellNum = event.target.getAttribute('data-id');
-    console.log('cell number:', cellNum);
-    const colNum = event.target.getAttribute('data-id') % 8;
-    console.log('column number:', colNum);
-  });
-  
-  cell.addEventListener('click', verifyPlaceCheck);
+let gameStatus;  // 'ongoing' or 'ended';
 
-})
+function addEventListenersToEachCell() {
+  cells.forEach((cell) => {
+    
+    cell.addEventListener('mouseover', ballAppearOnTop);
+    cell.addEventListener('mouseleave', ballDisappearOnTop);
+    cell.addEventListener('click', (event) => {
+      console.log('clicked');
+      const cellNum = event.target.getAttribute('data-id');
+      console.log('cell number:', cellNum);
+      const colNum = event.target.getAttribute('data-id') % 8;
+      console.log('column number:', colNum);
+    });
+    cell.addEventListener('click', verifyPlaceCheck);
+    cell.addEventListener('click', checkGameStatus);
+  })
+}
+addEventListenersToEachCell();
+
+
+function checkGameStatus() {
+  if (winner) {
+    gameStatus = 'ended';
+    newGameBtn.disabled = false;
+    console.log('WE HAVE A WINNER');
+  } else {
+    gameStatus = 'ongoing';
+    console.log('no winner yet....')
+  }
+}
 
 function ballAppearOnTop(event) {
   if (!winner) {
@@ -165,7 +206,12 @@ function verifyPlaceCheck(event) {
       // 4.0.3
       const colCells = gridOverview.columns[`column${colNum}`];
       const rowCells = gridOverview.rows[`row${rowNum}`];
-      const diagUpCells = diagUpNum < 6 ? gridOverview.diagonalUphill[`diagUp${diagUpNum}`] : null;
+      let diagUpCells = diagUpNum < 6 ? gridOverview.diagonalUphill[`diagUp${diagUpNum}`] : null;
+      // safety check: since (16-11)%7=5, but should be null
+      // (this is not a problem for diagDown)
+      if (diagUpCells && !diagUpCells.includes(lastPlayedCell)) {
+        diagUpCells = null;
+      }
       const diagDownCells = diagDownNum < 6 ? gridOverview.diagonalDownhill[`diagDown${diagDownNum}`] : null;
       console.log(`Contents of last placed cell: row ${rowCells}, col ${colCells}, diagUp ${diagUpCells} and diagDown ${diagDownCells}`)
   
@@ -189,8 +235,9 @@ function verifyPlaceCheck(event) {
       if (differences.join('').match(/1{3,}/g) >= 1) {
         console.log(`${ballColour} is the WINNER!!! (horizontal)`);
         winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (horizontal)`;
-        // window.alert(`${ballColour} has WON!`);
-      } else {
+        winner = ballColour;
+      } 
+      if (!winner) {
         // vertical check:  // will always have column contents
         console.log('orangeCells:', playerXCells, 'col cells:', colCells)
         xxx = colCells.filter((colCell) => playerXCells.includes(String(colCell))).sort();
@@ -199,31 +246,40 @@ function verifyPlaceCheck(event) {
           console.log(`${ballColour} is the WINNER!!! (vertical)`);
           winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (vertical)`;
           winner = ballColour;
-        } else if (diagUpCells) {  // might not have a corresponding updiag if < 4
-          //diag up:
-          console.log('orangeCells:', playerXCells, 'diagUp cells:', diagUpCells)
-          xxx = diagUpCells.filter((diagUpCell) => playerXCells.includes(String(diagUpCell))).sort();  
-          if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) {
-            console.log(`${ballColour} is the WINNER!!! (diagUp)`);
-            winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagUp)`;
-            winner = ballColour;
-            } 
-        } else if (diagDownCells) {  // might not have a corresponding updiag if < 4
-          console.log('orangeCells:', playerXCells, 'diagDown cells:', diagDownCells)
-          xxx = diagDownCells.filter((diagDownCell) => playerXCells.includes(String(diagDownCell))).sort();    
-          if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 27) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 36)) {
-            console.log(`${ballColour} is the WINNER!!! (diagDown)`);
-            winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagDown)`;
-            winner = ballColour;
-          }
+          console.log(winner);
+        }
+      }
+      // might not have a corresponding updiag if < 4
+      if (!winner && diagUpCells) {  
+        console.log('orangeCells:', playerXCells, 'diagUp cells:', diagUpCells)
+        xxx = diagUpCells.filter((diagUpCell) => playerXCells.includes(String(diagUpCell))).sort();  
+        if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) {
+          console.log(`${ballColour} is the WINNER!!! (diagUp)`);
+          winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagUp)`;
+          winner = ballColour;
+          console.log(winner);
+        } 
+      }
+      // might not have a corresponding downdiag if < 4
+      if (!winner && diagDownCells) {  
+        console.log('orangeCells:', playerXCells, 'diagDown cells:', diagDownCells)
+        xxx = diagDownCells.filter((diagDownCell) => playerXCells.includes(String(diagDownCell))).sort();    
+        if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 27) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 36)) {
+          console.log(`${ballColour} is the WINNER!!! (diagDown)`);
+          winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagDown)`;
+          winner = ballColour;
         }
       }
       // after clicked, make hovered ball (top row) disappear:
       document.querySelector(`div[data-id='${colNum}']`).classList.remove(`hovered-${ballColour}`);
       
       // Other player turn: change ball colour;
-      ballColour = ballColour==='orange' ? 'blue' : 'orange';
-      console.log('ballColour', ballColour)
+      if (!winner) {
+        ballColour = ballColour==='orange' ? 'blue' : 'orange';
+        console.log('ballColour', ballColour)
+      } else {  // if there IS a winner, make the ball orange for the next game:
+        ballColour = 'orange';
+      }
     }
   }
 } 
@@ -292,3 +348,13 @@ function verifyPlaceCheck(event) {
      // Move onto step 6
 
 // 6) run step (3) and (4)
+
+newGameBtn.addEventListener('click', () => {
+  // Once it can be clicked on (when there is a winner):
+  winnerAnnounced.innerText = '';
+  createOrResetGrid();
+  cells = document.querySelectorAll('.cell');
+  winner = null;
+  gameStatus = null; 
+  addEventListenersToEachCell();
+})
