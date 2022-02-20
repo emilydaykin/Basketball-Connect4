@@ -6,6 +6,25 @@
   font-family: 'Poppins', sans-serif;
 }
 
+h1 {
+  margin: 10px 0 0 20px;
+}
+
+/* scoring section */
+.scoring {
+  display: flex;
+  /* width: 100%; */
+  justify-content: flex-end;
+  padding-right: 90px;
+  align-items: center;
+  margin-top: -20px;
+}
+
+
+.score {
+  font-size: 50px;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -38,7 +57,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 40px 0 40px;
+  margin: 10px 40px 0 40px;
   margin-bottom: 0;
   height: 500px;
   border: 3px solid green;

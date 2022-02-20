@@ -14,6 +14,11 @@ const button1player = document.querySelector('.mode1player');
 const button2players = document.querySelector('.mode2players');
 const winnerAnnounced = document.querySelector('.winner-announced');
 const newGameBtn = document.querySelector('.new-game');
+const player1Name = document.querySelector('.player1Name');
+const player2Name = document.querySelector('.player2Name');
+const player1Score = document.querySelector('.p1');
+const player2Score = document.querySelector('.p2');
+const scoreDivider = document.querySelector('.score-divider');
 
 // Declare fixed variables
 const gridWidth = 8;
@@ -36,12 +41,13 @@ function createOrResetGrid() {
   }
 }
 
-createOrResetGrid();
+// createOrResetGrid();  // grid only appears after '1-player' or '2-player' selected
 
 let cells = document.querySelectorAll('.cell');  // can only be brought in once html has these
 
 // 1.25) Create an overview of the grid
 // this should probably be written programmatically 
+// put this in another js file
 const gridOverview = {
   columns: {
     // column number = cellNum % 8
@@ -86,24 +92,12 @@ const gridOverview = {
 //       --- User (orange) always goes first ---
 //       If 2-player mode clicked, PLAY ENTIRE GAME (steps 2-6)
 //       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
-let modeSelected;
-let ballColour;
+let modeSelected;  // 1- or 2-player mode
+let ballColour;  // orange or blue
 let winner;
-
-
-button1player.addEventListener('click', () => {
-  if (!modeSelected) {
-    console.log('1-player mode selected!')
-    modeSelected = '1player'
-    // disable button for two player mode:
-    button2players.disabled = true;
-    // button1player.disabled = true;
-    button1player.classList.add('highlight');
-    createOrResetGrid();
-    cells = document.querySelectorAll('.cell');
-    playSingleGame();
-  }
-})
+let gameStatus;
+let currentScoreP1 = 0;
+let currentScoreP2 = 0;
 
 button2players.addEventListener('click', () => {
   if (!modeSelected) {
@@ -111,17 +105,44 @@ button2players.addEventListener('click', () => {
     modeSelected = '2player'
     // disable button for 1 player mode:
     button1player.disabled = true;
+    // button2players.disabled = true;
     button2players.classList.add('highlight');
     createOrResetGrid();
     cells = document.querySelectorAll('.cell');
-    
+    initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
+    console.log('===== Playing single game...')
+    playSingleGame();
   }
 })
+
+button1player.addEventListener('click', () => {
+  if (!modeSelected) {
+    console.log('1-player mode selected!')
+    modeSelected = '1player'
+    // disable button for 2 player mode:
+    button2players.disabled = true;
+    button1player.classList.add('highlight');
+    createOrResetGrid();
+    cells = document.querySelectorAll('.cell');
+    initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
+  }
+})
+
+
+function initialiseScoreboard(player1, player2) {
+  player1Name.innerHTML = `${player1} &nbsp;`;
+  player2Name.innerHTML = `&nbsp; ${player2}`;
+  player1Score.innerText = 0;
+  scoreDivider.innerHTML = '&nbsp; &mdash; &nbsp;';
+  player2Score.innerText = 0;
+}
 
 
 function playSingleGame() {
   // 1.75) Declare ball = orange (will switch to blue for other player)
   ballColour = 'orange';
+  winner = null;
+  gameStatus = null;  // 'ongoing' or 'ended';
   
   // 2) Add an event listener to each column of the grid - console log 
   //    the column of grid clicked on. 
@@ -131,11 +152,32 @@ function playSingleGame() {
       // ? hmm probs latter...
       // Wrap each entire turn inside event listener (steps 3 & 4)
   
-  winner = null;
-  gameStatus = null;  // 'ongoing' or 'ended';
-  
   addEventListenersToEachCell();
   
+}
+
+function updateScore() {
+  if (winner === 'orange') {
+    currentScoreP1++;
+    console.log(`Score is now ${currentScoreP1} for player 1!`)
+    player1Score.innerText = currentScoreP1;
+  } else if (winner === 'blue') {
+    currentScoreP2++;
+    console.log(`Score is now ${currentScoreP2} for player 2!`)
+    player2Score.innerText = currentScoreP2;
+  } 
+}
+
+function ifNewGameClick() {
+  newGameBtn.addEventListener('click', () => {
+    // Once it can be clicked on (when there is a winner):
+    winnerAnnounced.innerText = '';
+    createOrResetGrid();
+    cells = document.querySelectorAll('.cell');
+    winner = null;
+    gameStatus = null;
+    addEventListenersToEachCell();
+  })
 }
 
 function addEventListenersToEachCell() {
@@ -161,7 +203,10 @@ function checkGameStatus() {
     gameStatus = 'ended';
     newGameBtn.disabled = false;
     console.log('WE HAVE A WINNER');
-  } else {
+    console.log('===== Updating score...')
+    updateScore();
+    ifNewGameClick();
+    } else {
     gameStatus = 'ongoing';
     console.log('no winner yet....');
     newGameBtn.disabled = true;
@@ -195,6 +240,7 @@ function ballDisappearOnTop(event) {
 //                       if yes, then check if 32 is filled ...
 
 function verifyPlaceCheck(event) {
+  gameStatus = 'ongoing';
   if (!winner) {
     const colNum = event.target.getAttribute('data-id') % 8;
     // Doing STEP 3 here:
@@ -318,6 +364,7 @@ function verifyPlaceCheck(event) {
         ballColour = ballColour==='orange' ? 'blue' : 'orange';
         console.log('ballColour', ballColour)
       } else {  // if there IS a winner, make the ball orange for the next game:
+        gameStatus = 'ended';
         ballColour = 'orange';
         // Pulsate the winning 4 cells!:
         winningCells.forEach((winningCell) => {
@@ -327,6 +374,7 @@ function verifyPlaceCheck(event) {
 
     }
   }
+  console.log('GAME-STATUS:', gameStatus)
 } 
 
 
@@ -394,12 +442,3 @@ function verifyPlaceCheck(event) {
 
 // 6) run step (3) and (4)
 
-newGameBtn.addEventListener('click', () => {
-  // Once it can be clicked on (when there is a winner):
-  winnerAnnounced.innerText = '';
-  createOrResetGrid();
-  cells = document.querySelectorAll('.cell');
-  winner = null;
-  gameStatus = null; 
-  addEventListenersToEachCell();
-})
