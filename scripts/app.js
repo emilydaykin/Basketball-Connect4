@@ -146,7 +146,8 @@ function checkGameStatus() {
     console.log('WE HAVE A WINNER');
   } else {
     gameStatus = 'ongoing';
-    console.log('no winner yet....')
+    console.log('no winner yet....');
+    newGameBtn.disabled = true;
   }
 }
 
@@ -223,6 +224,7 @@ function verifyPlaceCheck(event) {
       const playerXCells = Array.from(playerXElements).map((element) => element.dataset.id);
       console.log(`${ballColour} Cells: ${playerXCells}`);
       // ----- 4.0.5) ----- //
+      let winningCells;
       // horizontal check:  // will always have row contents
       console.log('orangeCells:', playerXCells, 'row cells:', rowCells)
       let xxx = rowCells.filter((rowCell) => playerXCells.includes(String(rowCell))).sort();
@@ -232,10 +234,27 @@ function verifyPlaceCheck(event) {
         differences.push(xxx[i+1]-xxx[i]);
       }
       // Match consecutive 1s precisely 3 or more times:
-      if (differences.join('').match(/1{3,}/g) >= 1) {
+      const regex = /1{3,}/g;
+      if (differences.join('').match(regex) >= 1) {
+        console.log('differences joined', differences.join(''));
         console.log(`${ballColour} is the WINNER!!! (horizontal)`);
         winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (horizontal)`;
         winner = ballColour;
+        // get winning cells:
+        /// get array of the string of differences split by 3+ consecutive ones:
+        const tmp = differences.join('').split(regex);
+        // if '111'+ exists, array will be of length 2 (grid is only 8 long, so can't be >2 here, but theoretically yes). if not found, could be -1.        
+        if (typeof(tmp)==='object' && tmp.length === 2) { // winner
+          // 4-in-a-row = first 4 or first 7
+          if ((tmp[0] === '' && tmp[1] === '') || tmp[0] === '') {  
+            winningCells = xxx.slice(0, 4);
+          } else if (tmp[1] == '') {  // 4-in-a-row = last 4
+            winningCells = xxx.slice(-4);
+          } else {  // 4-in-a-row: middle 4
+            winningCells = xxx.slice(1, xxx.length-1);
+          }
+        }
+        console.log('winningCells', winningCells);
       } 
       if (!winner) {
         // vertical check:  // will always have column contents
@@ -246,18 +265,20 @@ function verifyPlaceCheck(event) {
           console.log(`${ballColour} is the WINNER!!! (vertical)`);
           winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (vertical)`;
           winner = ballColour;
-          console.log(winner);
+          winningCells = xxx.slice(0, 4);
+          console.log('winningCells', winningCells);
         }
       }
       // might not have a corresponding updiag if < 4
       if (!winner && diagUpCells) {  
         console.log('orangeCells:', playerXCells, 'diagUp cells:', diagUpCells)
         xxx = diagUpCells.filter((diagUpCell) => playerXCells.includes(String(diagUpCell))).sort();  
-        if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) {
+        if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 28)) {
           console.log(`${ballColour} is the WINNER!!! (diagUp)`);
           winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagUp)`;
           winner = ballColour;
-          console.log(winner);
+          winningCells = xxx.slice(0, 4);
+          console.log('winningCells', winningCells);
         } 
       }
       // might not have a corresponding downdiag if < 4
@@ -268,6 +289,8 @@ function verifyPlaceCheck(event) {
           console.log(`${ballColour} is the WINNER!!! (diagDown)`);
           winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagDown)`;
           winner = ballColour;
+          winningCells = xxx.slice(0,4);
+          console.log('winningCells', winningCells);
         }
       }
       // after clicked, make hovered ball (top row) disappear:
@@ -279,7 +302,12 @@ function verifyPlaceCheck(event) {
         console.log('ballColour', ballColour)
       } else {  // if there IS a winner, make the ball orange for the next game:
         ballColour = 'orange';
+        // Pulsate the winning 4 cells!:
+        winningCells.forEach((winningCell) => {
+          document.querySelector(`div[data-id='${winningCell}']`).classList.add('pulsate')
+        })
       }
+
     }
   }
 } 
