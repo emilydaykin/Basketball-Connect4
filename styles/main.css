@@ -25,6 +25,16 @@ h1 {
   font-size: 50px;
 }
 
+.player1Name {
+  color: #FF7B23;
+  font-weight: bold;
+}
+
+.player2Name {
+  color: #00007F;
+  font-weight: bold;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
