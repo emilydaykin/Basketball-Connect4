@@ -5,6 +5,7 @@
 const grid = document.querySelector('.grid');
 const button1player = document.querySelector('.mode1player');
 const button2players = document.querySelector('.mode2players');
+const winnerAnnounced = document.querySelector('.winner-announced');
 
 // Declare fixed variables
 const gridWidth = 8;
@@ -91,7 +92,11 @@ let ballColour = 'orange';
     // ? hmm probs latter...
     // Wrap each entire turn inside event listener (steps 3 & 4)
 
+let winner;
 cells.forEach((cell) => {
+  
+  cell.addEventListener('mouseover', ballAppearOnTop);
+  cell.addEventListener('mouseleave', ballDisappearOnTop);
   cell.addEventListener('click', (event) => {
     console.log('clicked');
     const cellNum = event.target.getAttribute('data-id');
@@ -103,6 +108,17 @@ cells.forEach((cell) => {
   cell.addEventListener('click', verifyPlaceCheck);
 
 })
+
+function ballAppearOnTop(event) {
+  if (!winner) {
+    const colNum = event.target.getAttribute('data-id') % 8;
+    document.querySelector(`div[data-id='${colNum}']`).classList.add(`hovered-${ballColour}`)
+  }
+}
+function ballDisappearOnTop(event) {
+  const colNum = event.target.getAttribute('data-id') % 8;
+  document.querySelector(`div[data-id='${colNum}']`).classList.remove(`hovered-${ballColour}`);
+}
 
 // FUNCTION FOR STEP 3
 // 3) Check if that column is already partially filled (if the bottom 
@@ -120,89 +136,97 @@ cells.forEach((cell) => {
 //                       if yes, then check if 32 is filled ...
 
 function verifyPlaceCheck(event) {
-  const colNum = event.target.getAttribute('data-id') % 8;
-  // Doing STEP 3 here:
-  const colContents = gridOverview.columns[`column${colNum}`].sort((a,b)=>b-a);  // modifies original gridOverview
-  console.log(`colContents of col ${colNum}: ${colContents}`);
-  // Get first available cell in that column:
+  if (!winner) {
+    const colNum = event.target.getAttribute('data-id') % 8;
+    // Doing STEP 3 here:
+    const colContents = gridOverview.columns[`column${colNum}`].sort((a,b)=>b-a);  // modifies original gridOverview
+    console.log(`colContents of col ${colNum}: ${colContents}`);
+    // Get first available cell in that column:
+    
+    let firstAvailableCell = colContents.find((cell) => {
+      return !document.querySelector(`div[data-id='${cell}']`).classList.contains('filled');
+    })
   
-  let firstAvailableCell = colContents.find((cell) => {
-    return !document.querySelector(`div[data-id='${cell}']`).classList.contains('filled');
-  })
-
-  if (!firstAvailableCell) {
-    console.log('column FULL!')
-  } else {
-    console.log('firstAvailableCell:', firstAvailableCell);
-    let cellToFill = document.querySelector(`div[data-id='${firstAvailableCell}']`);
-    cellToFill.classList.add('filled');
-    cellToFill.setAttribute('id', ballColour);
-
-    // Doing STEP 4 here:
-    const lastPlayedCell = firstAvailableCell; // 4.0.1
-    // 4.0.2
-    const rowNum = Math.floor(lastPlayedCell / 8) - 1;
-    const diagUpNum = (lastPlayedCell - 11) % 7;
-    const diagDownNum = (lastPlayedCell - 7) % 9;
-    console.log(`Last played cell is: Row ${rowNum}, Col ${colNum}, DiagUp ${diagUpNum} and DiagDown ${diagDownNum}`);
-    // 4.0.3
-    const colCells = gridOverview.columns[`column${colNum}`];
-    const rowCells = gridOverview.rows[`row${rowNum}`];
-    const diagUpCells = diagUpNum < 6 ? gridOverview.diagonalUphill[`diagUp${diagUpNum}`] : null;
-    const diagDownCells = diagDownNum < 6 ? gridOverview.diagonalDownhill[`diagDown${diagDownNum}`] : null;
-    console.log(`Contents of last placed cell: row ${rowCells}, col ${colCells}, diagUp ${diagUpCells} and diagDown ${diagDownCells}`)
-
-    // IF MORE THAN 6 CELLS FILLED IN WHOLE GRID:
-    // 4.0.4: Get all cell numbers that have ballColour ids:
-    const playerXElements = document.querySelectorAll(`#${ballColour}`);
-    // console.log(`all ${ballColour} elements: ${playerXElements}`);
-    // To map over nodelist: first convert to array:
-    const playerXCells = Array.from(playerXElements).map((element) => element.dataset.id);
-    console.log(`${ballColour} Cells: ${playerXCells}`);
-    // ----- 4.0.5) ----- //
-    // horizontal check:  // will always have row contents
-    console.log('orangeCells:', playerXCells, 'row cells:', rowCells)
-    let xxx = rowCells.filter((rowCell) => playerXCells.includes(String(rowCell))).sort();
-    console.log(xxx)
-    let differences = [];
-    for (let i = 0; i < xxx.length-1; i++) {
-      differences.push(xxx[i+1]-xxx[i]);
-    }
-    // Match consecutive 1s precisely 3 or more times:
-    if (differences.join('').match(/1{3,}/g) >= 1) {
-      console.log(`${ballColour} is the WINNER!!! (horizontal)`);
-      // window.alert(`${ballColour} has WON!`);
+    if (!firstAvailableCell) {
+      console.log('column FULL!')
     } else {
-      // DONE: vertical check:  // will always have column contents
-      console.log('orangeCells:', playerXCells, 'col cells:', colCells)
-      xxx = colCells.filter((colCell) => playerXCells.includes(String(colCell))).sort();
+      console.log('firstAvailableCell:', firstAvailableCell);
+      let cellToFill = document.querySelector(`div[data-id='${firstAvailableCell}']`);
+      cellToFill.classList.add('filled');
+      cellToFill.setAttribute('id', ballColour);
+  
+      // Doing STEP 4 here:
+      const lastPlayedCell = firstAvailableCell; // 4.0.1
+      // 4.0.2
+      const rowNum = Math.floor(lastPlayedCell / 8) - 1;
+      const diagUpNum = (lastPlayedCell - 11) % 7;
+      const diagDownNum = (lastPlayedCell - 7) % 9;
+      console.log(`Last played cell is: Row ${rowNum}, Col ${colNum}, DiagUp ${diagUpNum} and DiagDown ${diagDownNum}`);
+      // 4.0.3
+      const colCells = gridOverview.columns[`column${colNum}`];
+      const rowCells = gridOverview.rows[`row${rowNum}`];
+      const diagUpCells = diagUpNum < 6 ? gridOverview.diagonalUphill[`diagUp${diagUpNum}`] : null;
+      const diagDownCells = diagDownNum < 6 ? gridOverview.diagonalDownhill[`diagDown${diagDownNum}`] : null;
+      console.log(`Contents of last placed cell: row ${rowCells}, col ${colCells}, diagUp ${diagUpCells} and diagDown ${diagDownCells}`)
+  
+      // IF MORE THAN 6 CELLS FILLED IN WHOLE GRID:
+      // 4.0.4: Get all cell numbers that have ballColour ids:
+      const playerXElements = document.querySelectorAll(`#${ballColour}`);
+      // console.log(`all ${ballColour} elements: ${playerXElements}`);
+      // To map over nodelist: first convert to array:
+      const playerXCells = Array.from(playerXElements).map((element) => element.dataset.id);
+      console.log(`${ballColour} Cells: ${playerXCells}`);
+      // ----- 4.0.5) ----- //
+      // horizontal check:  // will always have row contents
+      console.log('orangeCells:', playerXCells, 'row cells:', rowCells)
+      let xxx = rowCells.filter((rowCell) => playerXCells.includes(String(rowCell))).sort();
       console.log(xxx)
-      if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 24) {
-        console.log(`${ballColour} is the WINNER!!! (vertical)`)
+      let differences = [];
+      for (let i = 0; i < xxx.length-1; i++) {
+        differences.push(xxx[i+1]-xxx[i]);
+      }
+      // Match consecutive 1s precisely 3 or more times:
+      if (differences.join('').match(/1{3,}/g) >= 1) {
+        console.log(`${ballColour} is the WINNER!!! (horizontal)`);
+        winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (horizontal)`;
+        // window.alert(`${ballColour} has WON!`);
       } else {
-        //diag up:
-        if (diagUpCells) {   // could be undefined
+        // vertical check:  // will always have column contents
+        console.log('orangeCells:', playerXCells, 'col cells:', colCells)
+        xxx = colCells.filter((colCell) => playerXCells.includes(String(colCell))).sort();
+        console.log(xxx)
+        if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 24) {
+          console.log(`${ballColour} is the WINNER!!! (vertical)`);
+          winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (vertical)`;
+          winner = ballColour;
+        } else if (diagUpCells) {  // might not have a corresponding updiag if < 4
+          //diag up:
           console.log('orangeCells:', playerXCells, 'diagUp cells:', diagUpCells)
           xxx = diagUpCells.filter((diagUpCell) => playerXCells.includes(String(diagUpCell))).sort();  
           if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) {
-            console.log(`${ballColour} is the WINNER!!! (diagUp)`)
-          } else {
-            if (diagDownCells) {
-              console.log('orangeCells:', playerXCells, 'diagDown cells:', diagDownCells)
-              xxx = diagDownCells.filter((diagDownCell) => playerXCells.includes(String(diagDownCell))).sort();    
-              if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 27) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 36)) {
-                console.log(`${ballColour} is the WINNER!!! (diagDown)`)
-            }
+            console.log(`${ballColour} is the WINNER!!! (diagUp)`);
+            winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagUp)`;
+            winner = ballColour;
+            } 
+        } else if (diagDownCells) {  // might not have a corresponding updiag if < 4
+          console.log('orangeCells:', playerXCells, 'diagDown cells:', diagDownCells)
+          xxx = diagDownCells.filter((diagDownCell) => playerXCells.includes(String(diagDownCell))).sort();    
+          if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 27) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 36)) {
+            console.log(`${ballColour} is the WINNER!!! (diagDown)`);
+            winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagDown)`;
+            winner = ballColour;
           }
         }
       }
+      // after clicked, make hovered ball (top row) disappear:
+      document.querySelector(`div[data-id='${colNum}']`).classList.remove(`hovered-${ballColour}`);
+      
+      // Other player turn: change ball colour;
+      ballColour = ballColour==='orange' ? 'blue' : 'orange';
+      console.log('ballColour', ballColour)
     }
-  } 
-  ballColour = ballColour==='orange' ? 'blue' : 'orange';
-  console.log('ballColour', ballColour)
-
   }
-}
+} 
 
 
     // FUNCTION

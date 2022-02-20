@@ -57,6 +57,25 @@
   width: 12.5%;
 }
 
+/* div#orange.hovered */
+/* each cell (col) that's hovered over, show ball moving */
+.hovered-orange {
+  background-image: url('../images/bball_orange-cropped.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 80%;
+  opacity: 30%;
+  z-index: -1;
+}
+
+.hovered-blue {
+  background-image: url('../images/bball_blue-cropped.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 80%;
+  opacity: 30%;
+}
+
 /* no border for top row of cells */
 div[data-id="0"], 
 div[data-id="1"],
