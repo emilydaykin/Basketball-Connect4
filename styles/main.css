@@ -16,6 +16,17 @@
   cursor: pointer;
 }
 
+.highlight {
+  padding: 15px 25px;
+  border: none;
+  border-radius: 10px;
+}
+
+.mode1player.highlight, 
+.mode2players.highlight {
+  cursor: none;
+}
+
 /* buttons */
 .new-game:disabled, 
 .new-tournament:disabled, 
@@ -52,11 +63,17 @@
 }
 
 .grid {
+  /* background-image: url('../images/court_bball6_cropped.jpeg'); */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top 80px right 0;
+  /* background-position: center; */
   display: flex;
   flex-wrap: wrap;
   border: 2px solid purple;
   height: 500px;
   width: 800px;
+  /* position: relative; */
 }
 
 .cell {
@@ -112,4 +129,32 @@ div[data-id="7"] {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 78%;
+}
+
+.pulsate {
+  /* background-color: blueviolet; */
+  background-image: url('../images/bball_orange-cropped.svg');
+  position: relative;
+  animation: pulsateBall 1.5s infinite;
+}
+
+/* .pulsate::before {
+  content: ' ';
+  background-image: url('../images/bball_orange-cropped.svg');
+  display: block;
+  position: absolute;
+} */
+
+
+@keyframes pulsateBall {
+  0% {
+    background-size: 80%;
+  }
+  50% {
+    background-size: 135%;
+    /* z-index: 1; */
+  }
+  100% {
+    background-size: 80%;
+  }
 }
