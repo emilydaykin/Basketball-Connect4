@@ -87,12 +87,21 @@ const gridOverview = {
 //       If 2-player mode clicked, PLAY ENTIRE GAME (steps 2-6)
 //       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
 let modeSelected;
+let ballColour;
+let winner;
+
+
 button1player.addEventListener('click', () => {
   if (!modeSelected) {
     console.log('1-player mode selected!')
     modeSelected = '1player'
     // disable button for two player mode:
     button2players.disabled = true;
+    // button1player.disabled = true;
+    button1player.classList.add('highlight');
+    createOrResetGrid();
+    cells = document.querySelectorAll('.cell');
+    playSingleGame();
   }
 })
 
@@ -100,25 +109,34 @@ button2players.addEventListener('click', () => {
   if (!modeSelected) {
     console.log('2-player mode selected!')
     modeSelected = '2player'
-    // disable button for two player mode:
+    // disable button for 1 player mode:
     button1player.disabled = true;
+    button2players.classList.add('highlight');
+    createOrResetGrid();
+    cells = document.querySelectorAll('.cell');
+    
   }
 })
 
 
-// 1.75) Declare ball = orange (will switch to blue for other player)
-let ballColour = 'orange';
-
-// 2) Add an event listener to each column of the grid - console log 
-//    the column of grid clicked on. 
-    // cellNum % 8 === 0 ==> col 0
-    // ? Will the event listener will be on entire grid (and event.target
-    // ? will give cell number)? Or have the event listener on each cell?
-    // ? hmm probs latter...
-    // Wrap each entire turn inside event listener (steps 3 & 4)
-
-let winner;
-let gameStatus;  // 'ongoing' or 'ended';
+function playSingleGame() {
+  // 1.75) Declare ball = orange (will switch to blue for other player)
+  ballColour = 'orange';
+  
+  // 2) Add an event listener to each column of the grid - console log 
+  //    the column of grid clicked on. 
+      // cellNum % 8 === 0 ==> col 0
+      // ? Will the event listener will be on entire grid (and event.target
+      // ? will give cell number)? Or have the event listener on each cell?
+      // ? hmm probs latter...
+      // Wrap each entire turn inside event listener (steps 3 & 4)
+  
+  winner = null;
+  gameStatus = null;  // 'ongoing' or 'ended';
+  
+  addEventListenersToEachCell();
+  
+}
 
 function addEventListenersToEachCell() {
   cells.forEach((cell) => {
@@ -136,7 +154,6 @@ function addEventListenersToEachCell() {
     cell.addEventListener('click', checkGameStatus);
   })
 }
-addEventListenersToEachCell();
 
 
 function checkGameStatus() {
