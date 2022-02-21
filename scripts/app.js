@@ -33,17 +33,22 @@ const diagDown = gridWidth + 1 // +-9
 // 8*6 (extra row at the top for ball to hover)
 const numOfCells = gridWidth * (gridHeight + 1)
 
-// 0) Create a (flex) grid and 1) show it
-function createOrResetGrid() {
-  grid.innerHTML = '';  // empty (reset) grid contents
-  for (let i = 0; i < numOfCells; i++) {
-    let cellDiv = document.createElement('div');
-    cellDiv.classList.add('cell');
-    cellDiv.setAttribute('data-id', i);
-    grid.appendChild(cellDiv);
-  }
-}
+// INSTANTIATE CLASS:
+const game = new Game(grid);
 
+
+// 0) Create a (flex) grid and 1) show it
+// function createOrResetGrid() {
+  //   grid.innerHTML = '';  // empty (reset) grid contents
+  //   for (let i = 0; i < numOfCells; i++) {
+    //     let cellDiv = document.createElement('div');
+    //     cellDiv.classList.add('cell');
+    //     cellDiv.setAttribute('data-id', i);
+    //     grid.appendChild(cellDiv);
+    //   }
+    // }
+// game.createOrResetGrid();
+    
 // createOrResetGrid();  // grid only appears after '1-player' or '2-player' selected
 
 
@@ -73,10 +78,9 @@ button2players.addEventListener('click', () => {
     button1player.disabled = true;
     // button2players.disabled = true;
     button2players.classList.add('highlight');
-    createOrResetGrid();
+    game.createOrResetGrid();
     cells = document.querySelectorAll('.cell');
-    initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
-    console.log('===== Playing single game...')
+    game.initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
     playGame(cells);
   }
 })
@@ -88,27 +92,31 @@ button1player.addEventListener('click', () => {
     // disable button for 2 player mode:
     button2players.disabled = true;
     button1player.classList.add('highlight');
-    createOrResetGrid();
+    game.createOrResetGrid();
     cells = document.querySelectorAll('.cell');
-    initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
+    game.initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
     playGame(cells);
   }
 })
 
 
-function initialiseScoreboard(player1, player2) {
-  player1Name.innerHTML = `${player1} &nbsp;`;
-  player2Name.innerHTML = `&nbsp; ${player2}`;
-  player1Score.innerText = 0;
-  scoreDivider.innerHTML = '&nbsp; &mdash; &nbsp;';
-  player2Score.innerText = 0;
-}
+// function initialiseScoreboard(player1, player2) {
+//   player1Name.innerHTML = `${player1} &nbsp;`;
+//   player2Name.innerHTML = `&nbsp; ${player2}`;
+//   player1Score.innerText = 0;
+//   scoreDivider.innerHTML = '&nbsp; &mdash; &nbsp;';
+//   player2Score.innerText = 0;
+// }
 
 
 function playGame(cells) {
   // 1.75) Declare ball = orange (will switch to blue for other player)
   console.log("TURNNNNNNN:", turn);
   console.log("BAAALLLLL COLOUR:", ballColour);
+  if (turn==='computer') {
+    ballColour = 'blue';
+    computerToMoveNext();
+  }
   // if (modeSelected==='1player') {
   //   if (turn === 'computer') {
   //     ballColour = 'blue';
@@ -151,7 +159,7 @@ function ifNewGameClick() {
     // Once it can be clicked on (when there is a winner):
     scoreUpdated = false;
     winnerAnnounced.innerText = '';
-    createOrResetGrid();
+    game.createOrResetGrid();
     cells = document.querySelectorAll('.cell');
     winner = null;
     gameStatus = null;
@@ -201,20 +209,20 @@ function addEventListenersToEachCell(cells) {
 
 function checkGameStatus() {
   console.log('CHECK GAME STATUS CALLED')
-  if (winner) {
-    // scoreUpdated = false;
+  if (winner || gameStatus === 'ended') {
     gameStatus = 'ended';
     newGameBtn.disabled = false;
     newTournaBtn.disabled = false;
     console.log('WE HAVE A WINNER');
     turn = modeSelected === '2player' ? 'player' : null;
     console.log('===== Updating score...')
-    updateScore();
+    updateScore();  // does nothing if winner = null
     ifNewGameClick();
-    } else {
+  } else {
     gameStatus = 'ongoing';
     console.log('no winner yet....');
     newGameBtn.disabled = true;
+    // change computer to player???
   }
 }
 
@@ -357,11 +365,11 @@ function slideAndplace(columnNumber, firstAvailableCell) {
         
     
 
-
     yPositionStart+=4;
     looseBall.style.top = `${yPositionStart + 1}px`;
     
-    if (yPositionStart > yPositionEnd) {
+    // 50 because ~0.5*cellHeight, so that the 'animation' is smooth at the end
+    if (yPositionStart > yPositionEnd + 70) {  
       clearInterval(slide);
       cellToFill.classList.add('filled');
       console.log('ball colour to fill:', ballColour);
@@ -568,7 +576,7 @@ function checkForAWin (columnNumber, firstAvailableCell) {
   } else if (totalCellsFilled === 40) {
     console.log("It's a draw!");
     winnerAnnounced.innerText = `It's a draw!`;
-
+    gameStatus = 'ended';
   }
 }
 

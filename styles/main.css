@@ -237,9 +237,12 @@ div[data-id="47"] {
   100% {
     background-size: 80%;
   }
-  /* 50%{
-    transform: scale(2);  /* entire cell grows */
-  } */
+  /* entire cell grows */
+  /* 
+  50%{
+    transform: scale(2);
+  } 
+  */
 }
 
 /* responsive design */
