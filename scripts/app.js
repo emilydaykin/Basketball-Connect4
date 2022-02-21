@@ -109,14 +109,14 @@ function playGame() {
   // 1.75) Declare ball = orange (will switch to blue for other player)
   console.log("TURNNNNNNN:", turn);
   console.log("BAAALLLLL COLOUR:", ballColour);
-  if (modeSelected==='1player') {
-    if (turn === 'computer') {
-      ballColour = 'blue';
-      computerToMoveNext();
-    } else {
-      ballColour = 'orange';
-    }
-  } 
+  // if (modeSelected==='1player') {
+  //   if (turn === 'computer') {
+  //     ballColour = 'blue';
+  //     computerToMoveNext();
+  //   } else {
+  //     ballColour = 'orange';
+  //   }
+  // } 
   winner = null;
   gameStatus = null;  // 'ongoing' or 'ended';
   
@@ -192,7 +192,7 @@ function addEventListenersToEachCell() {
     // cell.addEventListener('click', checkWinnerStatus);
     // ^ generate computer move in here too for 1-player game
     
-    cell.addEventListener('click', computerToMoveNext);
+    // cell.addEventListener('click', computerToMoveNext);
     // cell.addEventListener('click', checkGameStatus);
   })
 }
@@ -207,6 +207,7 @@ function checkGameStatus() {
     newGameBtn.disabled = false;
     newTournaBtn.disabled = false;
     console.log('WE HAVE A WINNER');
+    turn = null;
     console.log('===== Updating score...')
     updateScore();
     ifNewGameClick();
@@ -217,7 +218,16 @@ function checkGameStatus() {
   }
 }
 
+// if (modeSelected === '1player') {
+//   if (turn === 'computer') {
+//     ballColour = 'blue';
+//     computerToMoveNext();
+//   } else {
+//     ballColour = 'orange';
+//   }
+
 function computerToMoveNext() {
+  console.log('TURN INSIDE CTMX function:', turn);
   if (turn==='computer') {
     // Randomised choice
     colNum = Math.floor(Math.random() * 8);
@@ -226,10 +236,7 @@ function computerToMoveNext() {
     // verifyPlaceCheckMANPOWER(colNum);
     let firstAvailableCell = verify(colNum);
     if (firstAvailableCell) {
-      let moveBallFirst = slideAndplace(colNum, firstAvailableCell);
-      moveBallFirst.then(() => {
-        checkForAWin(colNum, firstAvailableCell);
-      })
+      slideAndplace(colNum, firstAvailableCell);
     }
   }
 }
@@ -278,6 +285,7 @@ function verifyPlaceCheck(event) {
         // checkForAWin(colNum, firstAvailableCell);    
         // let moveBallFirst = slideAndplace(colNum, firstAvailableCell);
         slideAndplace(colNum, firstAvailableCell);
+        computerToMoveNext();
         // checkForAWin(colNum, firstAvailableCell);
         // setTimeout(() => slideAndplace(colNum, firstAvailableCell), 1);
         // setTimeout(() => checkForAWin(colNum, firstAvailableCell), 999);  // WORKS
@@ -350,9 +358,6 @@ function slideAndplace(columnNumber, firstAvailableCell) {
     
 
 
-
-
-
     yPositionStart+=4;
     looseBall.style.top = `${yPositionStart + 1}px`;
     
@@ -365,10 +370,9 @@ function slideAndplace(columnNumber, firstAvailableCell) {
       // ^ above two lines are due to the ball colour changing before it gets placed from set interval
       looseBall.classList.add('hide');
       // cellToFill.classList.add('ball-drop-animation');
-      console.log('colNum-INSIDE-INTERVAL', columnNumber)
-      console.log('firstAvailableCell-INSIDE-INTERVAL', firstAvailableCell)
       checkForAWin(columnNumber, firstAvailableCell);
       checkGameStatus();
+      computerToMoveNext();
       
       cells.forEach((cell) => {
         cell.addEventListener('mouseover', ballAppearOnTop);
@@ -547,9 +551,12 @@ function checkForAWin (columnNumber, firstAvailableCell) {
   // if no winner and board not filled:
   if (!winner && totalCellsFilled < 40) {
     ballColour = ballColour === 'orange' ? 'blue' : 'orange';
-    console.log(`ballColour now changed to ${ballColour.toUpperCase()} for next turn`)
+    console.log(`ballColour now changed to ${ballColour.toUpperCase()} for next turn`);
+    console.log('MODE SELECTED', modeSelected);
     if (modeSelected === '1player') {
+      console.log('TURN WAS:', turn);
       turn = turn === 'player' ? 'computer' : 'player';
+      console.log('TURN IS NOW:', turn);
     }
   } else if (winner) {  // if there IS a winner, make the ball orange for the next game:
     gameStatus = 'ended';
