@@ -5,8 +5,8 @@
 // - when hovering over FIRST (hidden) row, the ball spazzes
 // - after cell clicked, if mouse stays on same cell, ball doesnt 
 //   appear at the top
-// - after winner declared, if grid keeps getting clicked on, the score (of 
-//   the colour who just won) will keep incrementing
+// - if user double clicks many times (while interval slide still
+//   going), many turns get played in same cell.
 
 
 const grid = document.querySelector('.grid');
@@ -46,7 +46,6 @@ function createOrResetGrid() {
 
 // createOrResetGrid();  // grid only appears after '1-player' or '2-player' selected
 
-let cells = document.querySelectorAll('.cell');  // can only be brought in once html has these
 
 // 1.25) Create an overview of the grid
 // in another js file - ./components/gridOverview.js
@@ -58,6 +57,7 @@ let cells = document.querySelectorAll('.cell');  // can only be brought in once 
 //       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
 let modeSelected;  // 1- or 2-player mode
 let ballColour = 'orange';  // orange or blue
+let cells;  // can only be brought in once html has these
 let winner;
 let gameStatus;
 let turn = 'player'; // or 'computer'
@@ -77,7 +77,7 @@ button2players.addEventListener('click', () => {
     cells = document.querySelectorAll('.cell');
     initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
     console.log('===== Playing single game...')
-    playGame();
+    playGame(cells);
   }
 })
 
@@ -91,7 +91,7 @@ button1player.addEventListener('click', () => {
     createOrResetGrid();
     cells = document.querySelectorAll('.cell');
     initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
-    playGame();
+    playGame(cells);
   }
 })
 
@@ -105,7 +105,7 @@ function initialiseScoreboard(player1, player2) {
 }
 
 
-function playGame() {
+function playGame(cells) {
   // 1.75) Declare ball = orange (will switch to blue for other player)
   console.log("TURNNNNNNN:", turn);
   console.log("BAAALLLLL COLOUR:", ballColour);
@@ -128,7 +128,7 @@ function playGame() {
       // ? hmm probs latter...
       // Wrap each entire turn inside event listener (steps 3 & 4)
   
-  addEventListenersToEachCell();
+  addEventListenersToEachCell(cells);
   
 }
 
@@ -162,7 +162,7 @@ function ifNewGameClick() {
     } else {  // modeSelected='2player
       ballColour = ['orange', 'blue'][randomIndex];      
     }
-    playGame();
+    playGame(cells);
   })
 }
 
@@ -172,7 +172,7 @@ newTournaBtn.addEventListener('click', () => {
   }
 })
 
-function addEventListenersToEachCell() {
+function addEventListenersToEachCell(cells) {
   cells.forEach((cell) => {
     
     // cell.addEventListener('dblclick', (event) => {
@@ -207,7 +207,7 @@ function checkGameStatus() {
     newGameBtn.disabled = false;
     newTournaBtn.disabled = false;
     console.log('WE HAVE A WINNER');
-    turn = null;
+    turn = modeSelected === '2player' ? 'player' : null;
     console.log('===== Updating score...')
     updateScore();
     ifNewGameClick();
@@ -543,7 +543,7 @@ function checkForAWin (columnNumber, firstAvailableCell) {
   document.querySelector(`div[data-id='${columnNumber}']`).classList.remove(`hovered-blue`);
   
 
-  // HACKY (shouldnt have +1)
+  
   let totalCellsFilled = document.querySelectorAll('.filled').length;
   console.log('totalCellsFilled', totalCellsFilled)
   console.log('totalCellsFilled', totalCellsFilled.length)  
@@ -572,34 +572,4 @@ function checkForAWin (columnNumber, firstAvailableCell) {
   }
 }
 
-// function checkWinnerStatus() {
-//   if (!winner) {
-//     ballColour = ballColour === 'orange' ? 'blue' : 'orange';
-//     console.log(`ballColour now changed to ${ballColour.toUpperCase()} for next turn`)
-//     if (modeSelected === '1player') {
-//       turn = turn === 'player' ? 'computer' : 'player';
-//     }
-//   } else {  // if there IS a winner, make the ball orange for the next game:
-//     gameStatus = 'ended';
-//     ballColour = 'orange';
-//     // Pulsate the winning 4 cells!:
-//     winningCells.forEach((winningCell) => {
-//       document.querySelector(`div[data-id='${winningCell}']`).classList.add('pulsate')
-//     })
-//   }
-// }
-
-// 5) change colour of ball (ball = blue);
-// ballColour === 'orange' ? 'blue' : 'orange';
-// console.log(`Ball colour changed to ${ballColour}`) 
-
-// 5.1) ---------- IF 1-PLAYER GAME ----------
-     // Computer to generate a move: Get random column: Math.floor(Math.random()*8)
-     // v2: test for any horizontal or vertical 3-in-a-rows: computer blocks it 
-     // Move onto step 6
-
-// 5.2) ---------- IF 2-PLAYER GAME ----------
-     // Move onto step 6
-
-// 6) run step (3) and (4)
 
