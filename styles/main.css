@@ -1,13 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
+:root {
+  --cell-width: 95px;
+  --ball-size: 80%;
 }
 
+* {
+  box-sizing: border-box;
+  /* margin: 0; */
+  font-family: 'Poppins', sans-serif;
+}
+body {
+  margin: 0;
+  position: relative;
+}
+
+
 h1 {
-  margin: 10px 0 0 20px;
+  margin: 0;
+  padding: 10px 0 0 20px;
 }
 
 /* scoring section */
@@ -69,26 +80,39 @@ h1 {
   align-items: center;
   margin: 10px 40px 0 40px;
   margin-bottom: 0;
-  height: 500px;
+  /* height: 500px; */
   border: 3px solid green;
 }
 
 .player-1-image {
-  border: 2px solid orange;
+  /* border: 2px solid orange; */
   height: 420px;
   width: 180px;
   align-self: flex-end;
 }
 
 .player-2-image {
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   height: 420px;
   width: 180px;
   align-self: flex-end;
 }
 
+/* orange basketball to bring in later */
+.hide {
+  display: none;
+}
+
+.loose-ball {
+  width: calc(0.8*var(--cell-width));
+  position: absolute;  /* relative to body */
+  top: 0;
+  left: 0;
+}
+
 .grid-wrapper {
   border: 2px solid pink;
+  justify-content: center;
 }
 
 .grid {
@@ -99,20 +123,21 @@ h1 {
   /* background-position: center; */
   display: flex;
   flex-wrap: wrap;
-  border: 2px solid purple;
-  height: 500px;
-  width: 837px;
+  justify-content: center;
+  /* border: 2px solid purple; */
+  height: 520px;
+  width: 850px; /* 837 */
   /* position: relative; */
 }
 
 .cell {
-  /* border: 2px solid black; */
-  background-color: rgba(148, 148, 148, 0.8);
-  /* background-color: grey; */
-  /* border: 3px dashed rbga(255,255,255,0.1); */
-  /* border: 3px dashed black; */
-  width: 100px;
-  margin: 2px;
+  border: 2px solid black;
+  background-color: rgba(255, 255, 255, 0.97);
+  width: var(--cell-width);
+  margin: 2px 3px;
+  border-radius: 10px;
+  /* transform: translateX(300%); */
+  transition: transform 0.4s ease;
 }
 
 /* div#orange.hovered */
@@ -121,7 +146,7 @@ h1 {
   background-image: url('../images/bball_orange-cropped.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 80%;
+  background-size: var(--ball-size);
   opacity: 30%;
 }
 
@@ -129,7 +154,7 @@ h1 {
   background-image: url('../images/bball_blue-cropped.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 80%;
+  background-size: var(--ball-size);
   opacity: 30%;
 }
 
@@ -142,9 +167,23 @@ div[data-id="4"],
 div[data-id="5"],
 div[data-id="6"],
 div[data-id="7"] {
-  border: 1px dashed #ededed;
-  border-bottom: 2px solid black;
+  /* border: 1px dashed #ededed; */
+  border: none;
+  /* border-bottom: 2px solid black; */
   background-color: #fff;
+  /* z-index: -1; */
+  margin-bottom: 4px;
+}
+
+div[data-id="40"], 
+div[data-id="41"],
+div[data-id="42"],
+div[data-id="43"], 
+div[data-id="44"],
+div[data-id="45"],
+div[data-id="46"],
+div[data-id="47"] {
+  margin-bottom: 4px;
 }
 
 .cell:hover {
@@ -155,14 +194,18 @@ div[data-id="7"] {
   background-image: url('../images/bball_orange-cropped.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 80%;
+  background-size: var(--ball-size);
 }
 
 #blue {
   background-image: url('../images/bball_blue-cropped.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 78%;
+  background-size: var(--ball-size);
+}
+
+.ball-drop-animation {
+  animation: ballDrop 3s ease-in-out;
 }
 
 .pulsate {
@@ -170,14 +213,18 @@ div[data-id="7"] {
   background-image: url('../images/bball_orange-cropped.svg');
   position: relative;
   animation: pulsateBall 1.5s infinite;
+  /* transition: transform 1s; */
+  /* transform: scale(2); */
 }
 
-/* .pulsate::before {
-  content: ' ';
-  background-image: url('../images/bball_orange-cropped.svg');
-  display: block;
-  position: absolute;
-} */
+@keyframes ballDrop {
+  0% {
+
+  }
+  100% {
+
+  }
+}
 
 
 @keyframes pulsateBall {
@@ -190,4 +237,15 @@ div[data-id="7"] {
   100% {
     background-size: 80%;
   }
+  /* 50%{
+    transform: scale(2);  /* entire cell grows */
+  } */
 }
+
+/* responsive design */
+/*   - medium screens: make whole grid-wrapper smaller */
+/*     and make players either side smaller */
+/*   - small screens: make it 8x5 (instead of 5x8!!)?! */
+/*   - move h1 to middle of top */
+/*   - bring scoreboard below buttons */
+/*   - each pair of buttons to stack vertically */
