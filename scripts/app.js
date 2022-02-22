@@ -87,8 +87,12 @@ const ifNewGameClickAllowed = () => {
   })
 }
 
-game.enableNewTournamentClick();
-
+newTournaBtn.addEventListener('click', () => {
+  if (window.confirm("Are you sure you want to start a new tournament? ",
+    "This will reset the scoreboard, and you'll have to reselect a game mode.")) {
+    window.location.reload();
+  }
+})
 
 
 

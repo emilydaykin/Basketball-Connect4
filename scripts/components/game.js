@@ -40,7 +40,7 @@ class Game {
   const colNum = event.target.getAttribute('data-id') % 8;
   document.querySelector(`div[data-id='${colNum}']`).classList.remove(`hovered-orange`);
   document.querySelector(`div[data-id='${colNum}']`).classList.remove(`hovered-blue`);
-}
+  }
 
   addEventListenersToEachCell(arrayOfCells) {
     arrayOfCells.forEach((cell) => {
@@ -104,14 +104,12 @@ class Game {
   }
 
   verifyPlaceCheck(event) {
-    if (gameStatus !== 'ended') {  // 'null' or 'ongoing'
-      if (!winner) {
-        let colNum = event.target.getAttribute('data-id') % 8;
-        let firstAvailableCell = this.verify(colNum);
-        if (firstAvailableCell) {
-          this.slideAndplace(colNum, firstAvailableCell);
-          this.computerToMoveNext();
-        }
+    if (!winner && gameStatus !== 'ended') {  // 'null' or 'ongoing'
+      let colNum = event.target.getAttribute('data-id') % 8;
+      let firstAvailableCell = this.verify(colNum);
+      if (firstAvailableCell) {
+        this.slideAndplace(colNum, firstAvailableCell);
+        this.computerToMoveNext();
       }
     }
   }
@@ -138,7 +136,7 @@ class Game {
       this.checkGameStatus();
       this.computerToMoveNext();
 
-      this.addHoverEventListener(cells)
+      this.addHoverEventListener(cells);
     }
   }
 
@@ -152,22 +150,17 @@ class Game {
     let yPositionEnd = cellToFill.getBoundingClientRect().top
 
     let looseBall = ballColour === 'orange' ? looseBallOrange : looseBallBlue;
-
-
     looseBall.classList.remove('hide');
     looseBall.style.top = `${this.yPositionStart + 1}px`;
     looseBall.style.left = `${xPositionStart + 9}px`;
 
-    // this.sC = startingCell
-    this.cTF = cellToFill
-    this.cN = columnNumber
-    // this.yS = yPositionStart
-    this.yE = yPositionEnd
-    this.lB = looseBall
-    this.fAC = firstAvailableCell
+    this.cTF = cellToFill;
+    this.cN = columnNumber;
+    this.yE = yPositionEnd;
+    this.lB = looseBall;
+    this.fAC = firstAvailableCell;
 
     this.slide = setInterval(() => this.slideBall(this.cN, this.cTF, this.yE, this.lB, this.fAC), 1)
-
   }
 
   checkGameStatus() {
@@ -175,17 +168,14 @@ class Game {
       gameStatus = 'ended';
       newGameBtn.disabled = false;
       newTournaBtn.disabled = false;
-      console.log('WE HAVE A WINNER');
       turn = modeSelected === '2player' ? 'player' : null;
-      console.log('===== Updating score...')
       this.updateScore();  // does nothing if winner = null
       ifNewGameClickAllowed();
     } else {
       gameStatus = 'ongoing';
-      console.log('no winner yet....');
       newGameBtn.disabled = true;
     }
-}
+  }
 
   updateScore() {
     if (winner === 'orange' && !scoreUpdated) {
@@ -240,12 +230,10 @@ class Game {
           filteredCells = directionCells
             .filter((colCell) => currentPlayerCells.includes(String(colCell)))
             .sort((a, b) => a - b);
-
           winningCondition = (filteredCells.length === 4 
             && filteredCells[filteredCells.length - 1] - filteredCells[0] === 24);
         }
         break;
-
       case 'diagUp':
         if (!winner && directionCells) {
           filteredCells = directionCells
@@ -257,7 +245,6 @@ class Game {
               && filteredCells[filteredCells.length - 1] - filteredCells[0] === 28));
         }
         break;
-
       case 'diagDown':
         if (!winner && directionCells) {
           filteredCells = directionCells
@@ -269,23 +256,19 @@ class Game {
               && filteredCells[filteredCells.length - 1] - filteredCells[0] === 36));
         }
         break;
-
       default:
         console.log('direction invalid');
     }
-
     if (winningCondition) {
       winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (${direction})`;
       winner = ballColour;
       theWinningCells = filteredCells.slice(0, 4);
     }
-
   }
   if (theWinningCells) {
     return theWinningCells;
   }
 }
-
 
   checkForAWin(columnNumber, firstAvailableCell) {
 
@@ -354,16 +337,6 @@ class Game {
       winnerAnnounced.innerText = `It's a draw!`;
       gameStatus = 'ended';
     }
-  }
-
-
-  enableNewTournamentClick() {
-    newTournaBtn.addEventListener('click', () => {
-      if (window.confirm("Are you sure you want to start a new tournament? ", 
-      "This will reset the scoreboard, and you'll have to reselect a game mode.")) {
-        window.location.reload();
-      }
-    })
   }
 
 }
