@@ -3,6 +3,7 @@
 :root {
   --cell-width: 95px;
   --ball-size: 80%;
+  --hoop-size: 110%;
 }
 
 * {
@@ -148,6 +149,7 @@ h1 {
   background-position: center;
   background-size: var(--ball-size);
   opacity: 30%;
+  /* z-index: 1; */
 }
 
 .hovered-blue {
@@ -167,12 +169,52 @@ div[data-id="4"],
 div[data-id="5"],
 div[data-id="6"],
 div[data-id="7"] {
-  /* border: 1px dashed #ededed; */
-  border: none;
+  border: 1px dashed #ededed;
+  /* border: none; */
   /* border-bottom: 2px solid black; */
-  background-color: #fff;
+  background-color: transparent;
   /* z-index: -1; */
   margin-bottom: 4px;
+  /* background-image: url('../images/hoop.png'); */
+  /* background-repeat: no-repeat; */
+  /* background-position: center; */
+  /* background-size: var(--hoop-size); */
+  /* height: 60px; */
+  /* position: absolute; */
+  /* top: 100px; */
+}
+
+.hoop {
+  width: 100px;
+  top: 212px;
+  /* left: 231px; */
+  position: absolute;
+  z-index: -1;
+}
+
+.hoop#hoop-0 {
+  left: 233px;
+}
+.hoop#hoop-1 {
+  left: 335px;
+}
+.hoop#hoop-2 {
+  left: 437px;
+}
+.hoop#hoop-3 {
+  left: 539px;
+}
+.hoop#hoop-4 {
+  left: 641px;
+}
+.hoop#hoop-5 {
+  left: 743px;
+}
+.hoop#hoop-6 {
+  left: 845px;
+}
+.hoop#hoop-7 {
+  left: 947px;
 }
 
 div[data-id="40"], 

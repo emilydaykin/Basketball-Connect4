@@ -41,7 +41,16 @@ function createOrResetGrid() {
     cellDiv.classList.add('cell');
     cellDiv.setAttribute('data-id', i);
     grid.appendChild(cellDiv);
+    if (i < 8) {
+      let hoop = document.createElement('img');
+      hoop.src = "./images/hoop-cropped.png";
+      hoop.alt = "baskteball hoop";
+      hoop.classList.add('hoop');
+      hoop.setAttribute('id', `hoop-${i}`);
+      grid.appendChild(hoop);
+    }
   }
+
 }
 
 // createOrResetGrid();  // grid only appears after '1-player' or '2-player' selected
@@ -354,13 +363,10 @@ function slideAndplace(columnNumber, firstAvailableCell) {
       cell.removeEventListener('mouseleave', ballDisappearOnTop);
     });
         
-    
-
-
     yPositionStart+=4;
     looseBall.style.top = `${yPositionStart + 1}px`;
     
-    if (yPositionStart > yPositionEnd) {
+    if (yPositionStart > yPositionEnd + 95) {
       clearInterval(slide);
       cellToFill.classList.add('filled');
       console.log('ball colour to fill:', ballColour);
