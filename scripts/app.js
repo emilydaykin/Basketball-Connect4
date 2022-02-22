@@ -78,10 +78,13 @@ button2players.addEventListener('click', () => {
   if (!modeSelected) {
     console.log('2-player mode selected!')
     modeSelected = '2player'
+    // button2players.disabled = true;
+    button2players.id = 'highlight';
+    button1player.id = 'unhighlight';
+    button1player.classList.remove('flash');
+    button2players.classList.remove('flash');
     // disable button for 1 player mode:
     button1player.disabled = true;
-    // button2players.disabled = true;
-    button2players.classList.add('highlight');
     createOrResetGrid();
     cells = document.querySelectorAll('.cell');
     initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
@@ -94,9 +97,12 @@ button1player.addEventListener('click', () => {
   if (!modeSelected) {
     console.log('1-player mode selected!')
     modeSelected = '1player'
+    button1player.id = 'highlight';
+    button2players.id = 'unhighlight';
+    button1player.classList.remove('flash');
+    button2players.classList.remove('flash');
     // disable button for 2 player mode:
     button2players.disabled = true;
-    button1player.classList.add('highlight');
     createOrResetGrid();
     cells = document.querySelectorAll('.cell');
     initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
@@ -158,6 +164,8 @@ function updateScore() {
 function ifNewGameClick() {
   newGameBtn.addEventListener('click', () => {
     // Once it can be clicked on (when there is a winner):
+    newGameBtn.classList.remove('flash');
+    newTournaBtn.classList.remove('flash');
     scoreUpdated = false;
     winnerAnnounced.innerText = '';
     createOrResetGrid();
@@ -218,6 +226,9 @@ function checkGameStatus() {
     turn = modeSelected === '2player' ? 'player' : null;
     console.log('===== Updating score...')
     updateScore();
+    // flash the new game/tourni buttons:
+    newGameBtn.classList.add('flash');
+    newTournaBtn.classList.add('flash');
     ifNewGameClick();
     } else {
     gameStatus = 'ongoing';
@@ -366,7 +377,7 @@ function slideAndplace(columnNumber, firstAvailableCell) {
     yPositionStart+=4;
     looseBall.style.top = `${yPositionStart + 1}px`;
     
-    if (yPositionStart > yPositionEnd + 95) {
+    if (yPositionStart > yPositionEnd) {
       clearInterval(slide);
       cellToFill.classList.add('filled');
       console.log('ball colour to fill:', ballColour);
@@ -440,6 +451,14 @@ function slideAndplace(columnNumber, firstAvailableCell) {
 
 // 4.2) If no, move onto step 5
 
+function getWinnerDeclaration() {
+  if (modeSelected === '1player') {
+    winnerAnnounced.innerText = `${ballColour === 'orange' ? 'You are' : 'Your mysterious opponent is'} the WINNER!!!`;
+  } else {
+    winnerAnnounced.innerText = `${ballColour === 'orange' ? 'Player 1' : 'Player 2'} is the WINNER!!!`;
+  }
+}
+
 function checkForAWin (columnNumber, firstAvailableCell) {
   
   // STEP 4 here:
@@ -485,7 +504,7 @@ function checkForAWin (columnNumber, firstAvailableCell) {
   if (differences.join('').match(regex) >= 1) {
     console.log('differences joined', differences.join(''));
     console.log(`${ballColour} is the WINNER!!! (horizontal)`);
-    winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (horizontal)`;
+    getWinnerDeclaration()
     winner = ballColour;
     // get winning cells:
     /// get array of the string of differences split by 3+ consecutive ones:
@@ -510,7 +529,7 @@ function checkForAWin (columnNumber, firstAvailableCell) {
     console.log('xxx', xxx);
     if (xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 24) {
       console.log(`${ballColour} is the WINNER!!! (vertical)`);
-      winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (vertical)`;
+      getWinnerDeclaration();
       winner = ballColour;
       winningCells = xxx.slice(0, 4);
       console.log('winningCells', winningCells);
@@ -523,7 +542,7 @@ function checkForAWin (columnNumber, firstAvailableCell) {
     console.log('xxx', xxx);
     if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 21) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 28)) {
       console.log(`${ballColour} is the WINNER!!! (diagUp)`);
-      winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagUp)`;
+      getWinnerDeclaration();
       winner = ballColour;
       winningCells = xxx.slice(0, 4);
       console.log('winningCells', winningCells);
@@ -536,7 +555,7 @@ function checkForAWin (columnNumber, firstAvailableCell) {
     console.log('xxx', xxx);
     if ((xxx.length === 4 && xxx[xxx.length - 1] - xxx[0] === 27) || (xxx.length === 5 && xxx[xxx.length - 1] - xxx[0] === 36)) {
       console.log(`${ballColour} is the WINNER!!! (diagDown)`);
-      winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (diagDown)`;
+      getWinnerDeclaration();
       winner = ballColour;
       winningCells = xxx.slice(0, 4);
       console.log('winningCells', winningCells);
