@@ -163,12 +163,11 @@ function ifNewGameClick() {
     cells = document.querySelectorAll('.cell');
     winner = null;
     gameStatus = null;
-    // 50-50 chance whether player or computer goes first:
-    const randomIndex = Math.floor(Math.random()*2); // 0 or 1
+    // 50-50 chance which player (of 2-player game) goes first:
     if (modeSelected === '1player') {
-      turn = ['player', 'computer'][randomIndex];
+      turn = 'player';
     } else {  // modeSelected='2player
-      ballColour = ['orange', 'blue'][randomIndex];      
+      ballColour = ['orange', 'blue'][Math.floor(Math.random() * 2)];      
     }
     playGame(cells);
   })
