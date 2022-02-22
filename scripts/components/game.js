@@ -9,12 +9,13 @@ class Game {
     // this.checkForAWin = this.checkForAWin.bind(this);
     // this.slideAndplace.slideBall = this.slideAndplace.slideBall.bind(this);
     // this.slide = this.slide.bind(this);
-    this.slideBall = this.slideBall.bind(this);
+    // this.slideBall = this.slideBall.bind(this);
     // var self = this;
     // this.slideBall.bind(this)
-    var self = this;
-    self.slideBall = self.slideBall.bind(self);
-
+    // var self = this;
+    // self.slideBall = self.slideBall.bind(self);
+    this.yPositionStart;
+    this.slide;
     
     // verifyPlaceCheck
     
@@ -116,23 +117,31 @@ class Game {
     console.log('GAME-STATUS:', gameStatus)
   }
 
-  slideBall(columnNumber, yPositionStart, yPositionEnd, looseBall) {
+  slideBall = (columnNumber, cellToFill, yPositionEnd, looseBall, firstAvailableCell) => {
+
     document.querySelector(`div[data-id='${columnNumber}']`).classList.remove(`hovered-orange`);
+
     document.querySelector(`div[data-id='${columnNumber}']`).classList.remove(`hovered-blue`);
     cells.forEach((cell) => {
       cell.removeEventListener('mouseover', this.ballAppearOnTop);
       cell.removeEventListener('mouseleave', this.ballDisappearOnTop);
     });
 
-    console.log('yPositionStart BEFORE', yPositionStart)
-    yPositionStart += 4;
-    console.log('yPositionStart AFTER', yPositionStart)
-    looseBall.style.top = `${yPositionStart + 1}px`;
+    // let yPositionStart = startingCell.getBoundingClientRect().top
+    // let yPositionEnd = cellToFill.getBoundingClientRect().top
+
+    console.log('yPositionStart BEFORE', this.yPositionStart)
+    this.yPositionStart += 4;
+    // yPositionStart = yPositionStart + 4;
+    console.log('yPositionStart AFTER', this.yPositionStart)
+    looseBall.style.top = `${this.yPositionStart + 1}px`;
+
     
     // console.log('------- working up till here')
+
     
     // 50 because ~0.5*cellHeight, so that the 'animation' is smooth at the end
-    if (yPositionStart > yPositionEnd + 50) {
+    if (this.yPositionStart > yPositionEnd + 50) {
       console.log('------- working up till here')
       clearInterval(this.slide);
       cellToFill.classList.add('filled');
@@ -147,8 +156,8 @@ class Game {
       this.computerToMoveNext();
 
       cells.forEach((cell) => {
-        cell.addEventListener('mouseover', ballAppearOnTop);
-        cell.addEventListener('mouseleave', ballDisappearOnTop);
+        cell.addEventListener('mouseover', this.ballAppearOnTop);
+        cell.addEventListener('mouseleave', this.ballDisappearOnTop);
       })
     }
   }
@@ -160,7 +169,7 @@ class Game {
     // Get position of ball-start (top hidden row cell)
     let startingCell = document.querySelector(`div[data-id='${columnNumber}']`)
     let xPositionStart = startingCell.getBoundingClientRect().left
-    let yPositionStart = startingCell.getBoundingClientRect().top
+    this.yPositionStart = startingCell.getBoundingClientRect().top
 
     let xPositionEnd = cellToFill.getBoundingClientRect().left  // SAME AS START!
     let yPositionEnd = cellToFill.getBoundingClientRect().top
@@ -171,49 +180,19 @@ class Game {
     console.log('ballColour', ballColour);
 
     looseBall.classList.remove('hide');
-    looseBall.style.top = `${yPositionStart + 1}px`;
+    looseBall.style.top = `${this.yPositionStart + 1}px`;
     looseBall.style.left = `${xPositionStart + 9}px`;
 
-    
-    // this.slideBall = (columnNumber, yPositionStart, yPositionEnd, looseBall) => {
-    //   document.querySelector(`div[data-id='${columnNumber}']`).classList.remove(`hovered-orange`);
-    //   document.querySelector(`div[data-id='${columnNumber}']`).classList.remove(`hovered-blue`);
-    //   cells.forEach((cell) => {
-    //     cell.removeEventListener('mouseover', this.ballAppearOnTop);
-    //     cell.removeEventListener('mouseleave', this.ballDisappearOnTop);
-    //   });
+    // this.sC = startingCell
+    this.cTF = cellToFill
+    this.cN = columnNumber
+    // this.yS = yPositionStart
+    this.yE = yPositionEnd
+    this.lB = looseBall
+    this.fAC = firstAvailableCell
 
-    //   console.log('yPositionStart BEFORE', yPositionStart)
-    //   yPositionStart += 4;
-    //   console.log('yPositionStart AFTER', yPositionStart)
-    //   looseBall.style.top = `${yPositionStart + 1}px`;
+    this.slide = setInterval(() => this.slideBall(this.cN, this.cTF, this.yE, this.lB, this.fAC), 1)
 
-    //   // console.log('------- working up till here')
-
-    //   // 50 because ~0.5*cellHeight, so that the 'animation' is smooth at the end
-    //   if (yPositionStart > yPositionEnd + 70) {
-    //     console.log('------- working up till here')
-    //     clearInterval(slide);
-    //     cellToFill.classList.add('filled');
-    //     console.log('ball colour to fill:', ballColour);
-    //     // ballColourTmp = ballColour === 'orange' ? 'blue' : 'orange';
-    //     cellToFill.setAttribute('id', ballColour); // VERY hacky fix - terrible - also breaks the win logic;
-    //     // ^ above two lines are due to the ball colour changing before it gets placed from set interval
-    //     looseBall.classList.add('hide');
-    //     // cellToFill.classList.add('ball-drop-animation');
-    //     this.checkForAWin(columnNumber, firstAvailableCell);
-    //     this.checkGameStatus();
-    //     this.computerToMoveNext();
-
-    //     cells.forEach((cell) => {
-    //       cell.addEventListener('mouseover', ballAppearOnTop);
-    //       cell.addEventListener('mouseleave', ballDisappearOnTop);
-    //     })
-    //   }
-    // }
-    var self = this;
-    this.slide = setInterval(self.slideBall(columnNumber, yPositionStart, yPositionEnd, looseBall), 1);
-    
   }
 
   checkGameStatus() {
