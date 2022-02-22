@@ -50,20 +50,9 @@ function createOrResetGrid() {
       grid.appendChild(hoop);
     }
   }
-
 }
 
-// createOrResetGrid();  // grid only appears after '1-player' or '2-player' selected
 
-
-// 1.25) Create an overview of the grid
-// in another js file - ./components/gridOverview.js
-// const gridOverView = require('./components/gridOverview');
-
-// 1.5) Add event listeners to HTML buttons (1-player mode or 2-player mode)
-//       --- User (orange) always goes first ---
-//       If 2-player mode clicked, PLAY ENTIRE GAME (steps 2-6)
-//       If 1-player mode clicked, PLAY ENTIRE GAME (steps 2-6) with computer generated moves
 let modeSelected;  // 1- or 2-player mode
 let ballColour = 'orange';  // orange or blue
 let cells;  // can only be brought in once html has these
@@ -124,25 +113,10 @@ function playGame(cells) {
   // 1.75) Declare ball = orange (will switch to blue for other player)
   console.log("TURNNNNNNN:", turn);
   console.log("BAAALLLLL COLOUR:", ballColour);
-  // if (modeSelected==='1player') {
-  //   if (turn === 'computer') {
-  //     ballColour = 'blue';
-  //     computerToMoveNext();
-  //   } else {
-  //     ballColour = 'orange';
-  //   }
-  // } 
+
   winner = null;
   gameStatus = null;  // 'ongoing' or 'ended';
-  
-  // 2) Add an event listener to each column of the grid - console log 
-  //    the column of grid clicked on. 
-      // cellNum % 8 === 0 ==> col 0
-      // ? Will the event listener will be on entire grid (and event.target
-      // ? will give cell number)? Or have the event listener on each cell?
-      // ? hmm probs latter...
-      // Wrap each entire turn inside event listener (steps 3 & 4)
-  
+
   addEventListenersToEachCell(cells);
   
 }
@@ -191,25 +165,18 @@ newTournaBtn.addEventListener('click', () => {
 function addEventListenersToEachCell(cells) {
   cells.forEach((cell) => {
     
-    // cell.addEventListener('dblclick', (event) => {
-    //   console.log('double click DISABLED!!')
-    // })
     cell.addEventListener('mouseover', ballAppearOnTop);
     cell.addEventListener('mouseleave', ballDisappearOnTop);
-    cell.addEventListener('click', (event) => {
-      console.log('clicked');
-      const cellNum = event.target.getAttribute('data-id');
-      console.log('cell number:', cellNum);
-      const colNum = event.target.getAttribute('data-id') % 8;
-      console.log('column number:', colNum);
-    });
-    // cell.addEventListener('click', slideBallAnimation);
+    // cell.addEventListener('click', (event) => {
+    //   console.log('clicked');
+    //   const cellNum = event.target.getAttribute('data-id');
+    //   console.log('cell number:', cellNum);
+    //   const colNum = event.target.getAttribute('data-id') % 8;
+    //   console.log('column number:', colNum);
+    // });
+
     cell.addEventListener('click', verifyPlaceCheck);
-    // cell.addEventListener('click', checkWinnerStatus);
-    // ^ generate computer move in here too for 1-player game
-    
-    // cell.addEventListener('click', computerToMoveNext);
-    // cell.addEventListener('click', checkGameStatus);
+
   })
 }
 
@@ -237,13 +204,6 @@ function checkGameStatus() {
   }
 }
 
-// if (modeSelected === '1player') {
-//   if (turn === 'computer') {
-//     ballColour = 'blue';
-//     computerToMoveNext();
-//   } else {
-//     ballColour = 'orange';
-//   }
 
 function computerToMoveNext() {
   console.log('TURN INSIDE CTMX function:', turn);
@@ -274,23 +234,6 @@ function ballDisappearOnTop(event) {
   document.querySelector(`div[data-id='${colNum}']`).classList.remove(`hovered-blue`);
 }
 
-// FUNCTION FOR STEP 3
-// 3) Check if that column is already partially filled (if the bottom 
-//    row of that col is filled, then if second bottom, etc...)
-//      - if all rows filled (all have a class of filled), clicking on 
-//        that column won't pull ball in
-//      - if partially filled (looping through row finds one without a 
-//        'filled' class), get the first empty cell number and add the 
-//        ball there - ANIMATE KEYFRAME to have the ball slide down to 
-//        the first empty cell
-// if column 0 selected: check if cell 40 is filled
-//                            (classList.contains('filled')?)
-//                       if no, put ball there --> cell 40 display ball
-//                            (cell40=filled)
-//                       if yes, then check if 32 is filled ...
-
-// function
-
 function verifyPlaceCheck(event) {
   // gameStatus = 'ongoing';
   if (gameStatus !== 'ended') {  // 'null' or 'ongoing'
@@ -298,30 +241,8 @@ function verifyPlaceCheck(event) {
       let colNum = event.target.getAttribute('data-id') % 8;
       let firstAvailableCell = verify(colNum);
       if (firstAvailableCell) {
-        // slideAndplace(colNum, firstAvailableCell);
-        // checkForAWin(colNum, firstAvailableCell); 
-        // setTimeout(() => checkForAWin(colNum, firstAvailableCell), 900);  // WORKS
-        // checkForAWin(colNum, firstAvailableCell);    
-        // let moveBallFirst = slideAndplace(colNum, firstAvailableCell);
         slideAndplace(colNum, firstAvailableCell);
         computerToMoveNext();
-        // checkForAWin(colNum, firstAvailableCell);
-        // setTimeout(() => slideAndplace(colNum, firstAvailableCell), 1);
-        // setTimeout(() => checkForAWin(colNum, firstAvailableCell), 999);  // WORKS
-            
-          
-
-        // async function foo() {
-        //   await genPromise();
-        // }
-
-        // async function foo() {
-        //   await genPromise();
-        // }
-        // // = 
-        // function foo() {
-        //   return genPromise().then(() => undefined);
-        // }
       }
     } 
   }
@@ -399,57 +320,6 @@ function slideAndplace(columnNumber, firstAvailableCell) {
   let slide = setInterval(slideBall, 1);  
 }
 
-// function toggleHoverEventListeners(action) {
-
-// }
-
-    // FUNCTION
-// 4) !! Call win logic: to check whether the grid has any 4-balls-in-a-row !!
-    // -- if entire grid has > 6 filled, filter for only orange (or
-    //    blue) and see if gridOverview.inclues(filteredOrange)
-
-    // 4.0.1) Get last played cell number (where most recent turn placed the ball)
-    // 4.0.2) Work out the column number, row number, diagUp number and diagDown
-    //        number of that
-    // 4.0.3) Get the contents of the col/row/diag numbers from gridOverview
-    // 4.0.4) Get all the cell numbers that have the class of orange (or blue):
-    //        const orangeCells = document.querySelectorAll('.orange')
-    //                                    .getAttribute('data-id')
-    // 4.0.5) Use 4.0.3 and 4.0.4 to do:
-              // function for adjacent:
-              //  IF array.length === 4 and x = sorted array.
-              //   horizontal: x[3] - x[0] === 3
-              //   vertical: x[3] - [0] === 24
-              //   diagUp(y = x): x[3] - x[0] === 21
-              //   diagDown(y = -x): x[3] - x[0] === 27
-              //  THEN: they're 4 in a row!
-              // adding a generalised check for 5-6 in a row so it doesn't break:
-    // ----- HORIZONTAL-----
-    //    const xxx = set(...[arrayOfAllOrangeCellNums], ...[arrayOfItsRowNumbers])
-    //    if xxx.length >= 4 &&
-    //      (adjacent: sortedArrayLast - sortedArrayFirst===(xxx.length-1))
-    //      ==>  WINNER!
-    // ----- VERTICAL -----
-    //    const xxx = set(...[arrayOfAllOrangeCellNums], ...[arrayOfItsColumnNumbers])
-          // can never be 5 of the same colour
-    //    if xxx.length===4 && (adjacent: sortedArrayLast - sortedArrayFirst===24)
-    //      ==>  WINNER!
-    // ----- DIAGONAL UPHILL -----
-    //    const xxx = set(...[arrayOfAllOrangeCellNums], ...[arrayOfItsDiagUpNumbers])
-    //    if xxx.length===4 && (adjacent: sortedArrayLast - sortedArrayFirst===21)
-    //      --- OR ---
-    //    if xxx.length===5 && (adjacent: sortedArrayLast - sortedArrayFirst===28)
-    //      ==>  WINNER!
-    // ----- DIAGONAL DOWNHILL -----
-    //    const xxx = set(...[arrayOfAllOrangeCellNums], ...[arrayOfItsDiagUpNumbers])
-    //    if xxx.length===4 && (adjacent: sortedArrayLast - sortedArrayFirst===27)
-    //      --- OR ---
-    //    if xxx.length===5 && (adjacent: sortedArrayLast - sortedArrayFirst===36)
-    //      ==>  WINNER!
-
-// 4.1) If yes, declare winner and add score to tally
-
-// 4.2) If no, move onto step 5
 
 function getWinnerDeclaration() {
   if (modeSelected === '1player') {
@@ -459,7 +329,7 @@ function getWinnerDeclaration() {
   }
 }
 
-function checkForAWin (columnNumber, firstAvailableCell) {
+function checkForAWin(columnNumber, firstAvailableCell) {
   
   // STEP 4 here:
   const lastPlayedCell = firstAvailableCell; // 4.0.1
@@ -487,7 +357,8 @@ function checkForAWin (columnNumber, firstAvailableCell) {
   const playerXElements = document.querySelectorAll(`#${ballColour}`);
   // console.log(`all ${ballColour} elements: ${playerXElements}`);
   // To map over nodelist: first convert to array:
-  const playerXCells = Array.from(playerXElements).map((element) => element.dataset.id);
+  // const playerXCells = Array.from(playerXElements).map((element) => element.dataset.id);
+  const playerXCells = [...playerXElements].map((element) => element.dataset.id);
   console.log(`${ballColour} Cells: ${playerXCells}`);
   // ----- 4.0.5) ----- //
   let winningCells;
@@ -595,5 +466,3 @@ function checkForAWin (columnNumber, firstAvailableCell) {
 
   }
 }
-
-

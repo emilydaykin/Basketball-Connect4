@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
 :root {
-  --cell-width: 92px;
+  --cell-width: 95px;
   --ball-size: 75%;
   --hoop-size: 110%;
   --orange-dark: #FF7B23;
@@ -15,10 +15,16 @@
   font-family: 'Poppins', sans-serif;
 }
 body {
-  margin: 0;
+  /* margin: 0; */
   /* margin-bottom: 20px; */
   position: relative;
   /* overflow-y: hidden; */
+  /* background-image: url('../images/court_bball8.jpeg'); */
+  background-repeat: no-repeat;
+  /* background-position: contain; */
+  background-size: cover;
+  background-position: center bottom;
+  height: 100vh;
 }
 
 .loose-ball {
@@ -89,7 +95,6 @@ h1 {
   align-items: center;
   padding-bottom: 15px;
 }
-
 
 .score {
   font-size: 50px;
@@ -193,22 +198,30 @@ h1 {
   background-color: azure;
 }  */
 
+
+
 .game {
   display: flex;
   justify-content: center;
   align-items: center;
   /* margin: 10px 40px 0 40px; */
-  margin: -10px 40px;
-  margin-bottom: 0;
+  margin-top: -10px;
+  /* margin: -10px 40px; */
+  /* margin-bottom: 0; */
   /* height: 500px; */
-  /* border: 3px solid green; */
+  border: 3px solid green;
   height: 70vh;
 }
 
+
+.jordan {
+  width: 100px;
+}
+
 .player-1-image {
-  /* border: 2px solid orange; */
+  border: 2px solid blue;
   /* height: 420px; */
-  width: 180px;
+  /* width: 180px; */
   align-self: flex-end;
 }
 
@@ -230,10 +243,11 @@ h1 {
 }
 
 .grid {
-  background-image: url('../images/court_bball4_cropped.jpeg');
+  background-image: url('../images/court_bball4_new.jpeg');
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: top 80px right 0;
+  background-position: top 74px right 0;
+  /* border-radius: 5px; */
   /* background-position: center; */
   display: flex;
   flex-wrap: wrap;
@@ -249,7 +263,7 @@ h1 {
   border: 2px solid black;
   background-color: rgba(255, 255, 255, 0.97);
   width: var(--cell-width);
-  margin: 1px 5px;
+  margin: 1px 4px;
   border-radius: 10px;
   /* transform: translateX(300%); */
   transition: transform 0.4s ease;
@@ -267,7 +281,8 @@ h1 {
 }
 
 .hovered-blue {
-  background-image: url('../images/bball_blue-cropped.svg');
+  /* background-image: url('../images/bball_blue-cropped.svg'); */
+  background-image: url('../images/basketball_navy.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: var(--ball-size);
@@ -300,7 +315,7 @@ div[data-id="7"] {
 
 .hoop {
   width: 100px;
-  top: -17px;
+  top: -20px;
   /* left: 231px; */
   position: absolute;
   z-index: -1;
@@ -354,7 +369,8 @@ div[data-id="47"] {
 }
 
 #blue {
-  background-image: url('../images/bball_blue-cropped.svg');
+  /* background-image: url('../images/bball_blue-cropped.svg'); */
+  background-image: url('../images/basketball_navy.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: var(--ball-size);
