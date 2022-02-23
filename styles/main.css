@@ -19,12 +19,26 @@ body {
   /* margin-bottom: 20px; */
   position: relative;
   /* overflow-y: hidden; */
-  /* background-image: url('../images/court_bball8.jpeg'); */
+  /* background-image: url('../images/court_bball7.jpeg'); */
+  background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+      url("../images/court_bball7.jpeg");
   background-repeat: no-repeat;
-  /* background-position: contain; */
+  background-position: contain;
   background-size: cover;
   background-position: center bottom;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* padding-top: 70px; */
+}
+main {
+  display: flex;
+  /* flex-direction: column; */
+  /* align-items: center; */
+  justify-content: center;
+  /* align-items: flex-end; */
 }
 
 .loose-ball {
@@ -47,12 +61,18 @@ header {
   display: flex;
   justify-content: space-between;
   margin-top: -10px;
+  /* width: 1200px; */
+  min-width: 1400px;
+  position: relative;
+  /* display: flex; */
+  /* justify-content: center; */
 }
 
 h1 {
   margin: 0;
   padding: 10px 0 0 20px;
   font-size: 28px;
+  color: #fff;
   position: absolute;
   top: 87px;
   left: 4px;
@@ -98,6 +118,11 @@ h1 {
 
 .score {
   font-size: 50px;
+  color: #fff;
+}
+
+.score-divider {
+  color: #fff;
 }
 
 .player1Name {
@@ -154,7 +179,7 @@ h1 {
 
 #unhighlight {
   padding: 0;
-  border-radius: 6px;
+  border-radius: 7px;
   border: none;
   background-color: none;
   font-weight: normal;
@@ -201,52 +226,74 @@ h1 {
 
 
 .game {
+  /* background-color: #000; */
+  /* z-index: -1; */
   display: flex;
   justify-content: center;
   align-items: center;
   /* margin: 10px 40px 0 40px; */
   margin-top: -10px;
+  /* margin-bottom: 10px; */
   /* margin: -10px 40px; */
   /* margin-bottom: 0; */
   /* height: 500px; */
-  border: 3px solid green;
-  height: 70vh;
+  padding: 75px 50px;
+  /* border: 3px solid green; */
+  /* height: 530px; */
+  max-width: 1350px;
+  border-radius: 30px;
 }
 
 
 .jordan {
-  width: 100px;
+  width: 190px;
+}
+
+.kobe, .silhouette {
+  width: 230px;
 }
 
 .player-1-image {
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
+  /* box-shadow:  */
+  /* box-shadow: 0 4px 2px -2px gray; */
   /* height: 420px; */
   /* width: 180px; */
   align-self: flex-end;
+  padding-left: 60px;
 }
 
 .player-2-image {
   /* border: 2px solid blue; */
+  /* box-shadow: 0 4px 2px -2px gray; */
   /* height: 420px; */
-  width: 180px;
-  align-self: flex-end;
+  /* width: 180px; */
+  align-self: center;
+  padding-right: 60px;
 }
 
-/* orange basketball to bring in later */
+/* orange basketball, kobe, jordan to bring in later */
 .hide {
   display: none;
 }
 
-.grid-wrapper {
-  /* border: 2px solid pink; */
-  /* justify-content: center; */
+.empty {
+  height: 15.5%;
+  width: 100%;
+  /* box-shadow: 0 0 8px 8px white inset; */
 }
-
+.court {
+  height: 84.5%;
+  width: 100%;
+  /* box-shadow: 0 0 10px 10px white inset; */
+  box-shadow: 0 0 10px 10px rgba(0,0,0,0.5) inset;
+}
 .grid {
   background-image: url('../images/court_bball4_new.jpeg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top 74px right 0;
+
   /* border-radius: 5px; */
   /* background-position: center; */
   display: flex;
@@ -254,7 +301,7 @@ h1 {
   justify-content: center;
   /* border: 2px solid purple; */
   height: 475px;
-  width: 850px; /* 837 */
+  width: 830px; /* 837 */
   position: relative;
   /* padding: 0 7px; */
 }
@@ -276,8 +323,8 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: var(--ball-size);
-  opacity: 30%;
-  /* z-index: 1; */
+  opacity: 50%;
+  z-index: 1;
 }
 
 .hovered-blue {
@@ -286,7 +333,8 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: var(--ball-size);
-  opacity: 30%;
+  opacity: 50%;
+  z-index: 1;
 }
 
 /* no border for top row of cells */
@@ -300,7 +348,6 @@ div[data-id="6"],
 div[data-id="7"] {
   /* border: 1px dashed #ededed; */
   border: none;
-  /* border-bottom: 2px solid black; */
   background-color: transparent;
   /* z-index: -1; */
   margin-bottom: 4px;
@@ -318,33 +365,33 @@ div[data-id="7"] {
   top: -20px;
   /* left: 231px; */
   position: absolute;
-  z-index: -1;
+  z-index: 0;
 }
 
-.hoop#hoop-0 {
-  left: 18px;
+/* .hoop#hoop-0 {
+  left: 5px;
 }
 .hoop#hoop-1 {
-  left: 120px;
+  left: 108px;
 }
 .hoop#hoop-2 {
-  left: 221px;
+  left: 211px;
 }
 .hoop#hoop-3 {
-  left: 323px;
+  left: 314px;
 }
 .hoop#hoop-4 {
-  left: 426px;
+  left: 417px;
 }
 .hoop#hoop-5 {
-  left: 528px;
+  left: 520px;
 }
 .hoop#hoop-6 {
-  left: 630px;
+  left: 623px;
 }
 .hoop#hoop-7 {
-  left: 732px;
-}
+  left: 726px;
+} */
 
 div[data-id="40"], 
 div[data-id="41"],
@@ -386,6 +433,10 @@ div[data-id="47"] {
   /* transform: scale(2); */
 }
 
+.small-screen-message {
+  display: none;
+}
+
 
 @keyframes winnerAnnounced {
   50% {
@@ -416,10 +467,91 @@ div[data-id="47"] {
   */
 }
 
-/* responsive design */
+/* Responsive design */
 /*   - medium screens: make whole grid-wrapper smaller */
 /*     and make players either side smaller */
 /*   - small screens: make it 8x5 (instead of 5x8!!)?! */
 /*   - move h1 to middle of top */
 /*   - bring scoreboard below buttons */
 /*   - each pair of buttons to stack vertically */
+
+
+/* 1280 macbook 13" */
+@media only screen and (max-width: 14250px) {
+  header {
+    width: 1370px;
+    min-width: auto;
+  }
+}
+
+@media only screen and (max-width: 1370px) {
+  /* less than a laptop width */
+  header {
+    width: 1200px;
+    min-width: auto;
+  }
+  .game {
+    padding: 35px 5px 5px 5px;
+  }
+  .player-1-image {
+    padding-left: 0;
+  }
+  .player-2-image {
+    padding-right: 0;
+  }
+}
+@media only screen and (max-width: 1250px) {
+  /* less than a laptop width */
+  header {
+    width: 1080px;
+    min-width: auto;
+  }
+  .player-1-image, 
+  .player-2-image {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1064px) {
+  .game, header, section {
+    display:none;
+  }
+  body {
+    /* background-image: url('../images/court_bball8.jpeg'); */
+    /* background-color: rgba(0,0,0,0.5); */
+    background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+      url("../images/court_bball8.jpeg");
+    /* filter: brightness(50%); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .small-screen-message {
+    display: contents;
+    color: #fff;
+  }
+  .small-screen-message span {
+    font-weight: normal;
+    font-size: 20px;
+  }
+  /* body::before {
+  background-color: rgba(0,0,0,0.5);
+
+  } */
+}
+
+
+/* https://kinsta.com/blog/responsive-web-design/ */
+/* Mobile: 360 x 640
+Mobile: 375 x 667
+Mobile: 360 x 720
+iPhone X: 375 x 812
+Pixel 2: 411 x 731
+Tablet: 768 x 1024
+Laptop: 1366 x 768
+High-res laptop or desktop: 1920 x 1080 */

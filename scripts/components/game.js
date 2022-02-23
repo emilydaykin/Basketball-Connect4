@@ -12,19 +12,39 @@ class Game {
 
   createOrResetGrid() {
     this.grid.innerHTML = '';  // empty (reset) grid contents
-    for (let i = 0; i < numOfCells; i++) {
+    for (let i = 0; i < numOfCells; i++) {  // numOfCells=48
       let cellDiv = document.createElement('div');
       cellDiv.classList.add('cell');
       cellDiv.setAttribute('data-id', i);
       this.grid.appendChild(cellDiv);
-      if (i < 8) {
-        let hoop = document.createElement('img');
-        hoop.src = "./images/hoop-cropped.png";
-        hoop.alt = "baskteball hoop";
-        hoop.classList.add('hoop');
-        hoop.setAttribute('id', `hoop-${i}`);
-        grid.appendChild(hoop);
+    }
+  }
+  
+  displayHoops() {
+    let previousHoopPosition = 5;
+    for (let i = 0; i < gridWidth; i++) {  // gridWidth=8
+      let hoop = document.createElement('img');
+      hoop.src = "./images/hoop-black.png";
+      hoop.alt = "baskteball hoop";
+      hoop.classList.add('hoop');
+      hoop.setAttribute('id', `hoop-${i}`);
+      grid.appendChild(hoop);
+      if (i === 0) {
+        document.querySelector(`#hoop-${i}`).style.left = `${previousHoopPosition}px`;
+      } else {
+        // Add 103 pixes to the 'left' attribute each time
+        document.querySelector(`#hoop-${i}`).style.left = `${previousHoopPosition+=103}px`;
       }
+    }
+  }
+
+  displayPlayerImages() {
+    jordan.classList.remove('hide');
+    if (modeSelected === '1player') {
+      // show jordan & silhouette
+      silhouette.classList.remove('hide');
+    } else {  // show jordan and kobe
+      kobe.classList.remove('hide');
     }
   }
 
@@ -56,6 +76,7 @@ class Game {
       cell.addEventListener('mouseleave', this.ballDisappearOnTop);
       cell.addEventListener('click', this.verifyPlaceCheck);
     });
+    console.log('eventlisteners successfully added');
   }
 
   addHoverEventListener(arrayOfCells) {
@@ -134,7 +155,7 @@ class Game {
     looseBall.style.top = `${this.yPositionStart + 1}px`;
 
     // 50 because ~0.5*cellHeight, so that the 'animation' is smooth at the end
-    if (this.yPositionStart > yPositionEnd + 50) {
+    if (this.yPositionStart > yPositionEnd) {
       clearInterval(this.slide);
       cellToFill.classList.add('filled');
       cellToFill.setAttribute('id', ballColour); 

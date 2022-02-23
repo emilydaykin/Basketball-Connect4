@@ -10,6 +10,7 @@
 
 
 const grid = document.querySelector('.grid');
+const gameWrapper = document.querySelector('.game');
 const button1player = document.querySelector('.mode1player');
 const button2players = document.querySelector('.mode2players');
 const winnerAnnounced = document.querySelector('.winner-announced');
@@ -22,6 +23,9 @@ const player2Score = document.querySelector('.p2');
 const scoreDivider = document.querySelector('.score-divider');
 const looseBallOrange = document.querySelector('.orange-ball');
 const looseBallBlue = document.querySelector('.blue-ball');
+const jordan = document.querySelector('.jordan');
+const kobe = document.querySelector('.kobe');
+const silhouette = document.querySelector('.silhouette');
 
 // Declare fixed variables
 const gridWidth = 8;
@@ -45,7 +49,7 @@ let turn = 'player'; // or 'computer'
 let scoreUpdated = false;
 
 // INSTANTIATE GAME CLASS:
-const game = new Game(grid);
+const connectFour = new Game(grid);
 
 const setUpTheGame = (selectedMode) => {
     modeSelected = selectedMode
@@ -54,19 +58,22 @@ const setUpTheGame = (selectedMode) => {
       button1player.id = 'highlight';
       button2players.id = 'unhighlight';      
       button2players.disabled = true;
-      game.initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
+      connectFour.initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
     } else {
       modeSelected = '2player'
       button2players.id = 'highlight';
       button1player.id = 'unhighlight';
       button1player.disabled = true;
-      game.initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
+      connectFour.initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
     }
     button1player.classList.remove('flash');
     button2players.classList.remove('flash');
-    game.createOrResetGrid();
+    connectFour.createOrResetGrid();
+    gameWrapper.style.backgroundColor = '#000';
+    connectFour.displayHoops();
+    connectFour.displayPlayerImages();
     cells = document.querySelectorAll('.cell');
-    game.playGame(cells);
+    connectFour.playGame(cells);
   }
 
 
@@ -81,7 +88,9 @@ const ifNewGameClickAllowed = () => {
     newTournaBtn.classList.remove('flash');
     scoreUpdated = false;
     winnerAnnounced.innerText = '';
-    game.createOrResetGrid();
+    connectFour.createOrResetGrid();
+    connectFour.displayHoops();
+    connectFour.displayPlayerImages();
     cells = document.querySelectorAll('.cell');
     winner = null;
     gameStatus = null;
@@ -91,7 +100,7 @@ const ifNewGameClickAllowed = () => {
     } else {  // modeSelected='2player
       ballColour = ['orange', 'blue'][Math.floor(Math.random() * 2)];
     }
-    game.playGame(cells);
+    connectFour.playGame(cells);
   })
 }
 
