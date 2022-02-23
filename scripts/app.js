@@ -26,6 +26,7 @@ const looseBallBlue = document.querySelector('.blue-ball');
 const jordan = document.querySelector('.jordan');
 const kobe = document.querySelector('.kobe');
 const silhouette = document.querySelector('.silhouette');
+// const swishAudio = document.querySelector('audio');
 
 // Declare fixed variables
 const gridWidth = 8;
@@ -44,8 +45,6 @@ let cells;  // can only be brought in once html has these
 let winner;
 let gameStatus;
 let turn = 'player'; // or 'computer'
-// let currentScoreP1 = 0;
-// let currentScoreP2 = 0;
 let scoreUpdated = false;
 
 // INSTANTIATE GAME CLASS:
@@ -70,6 +69,8 @@ const setUpTheGame = (selectedMode) => {
     button2players.classList.remove('flash');
     connectFour.createOrResetGrid();
     gameWrapper.style.backgroundColor = '#000';
+    grid.style.backgroundImage = "url('../images/court_bball4_new.jpeg')";
+    gameWrapper.style.animation = 'fadein 1s';
     connectFour.displayHoops();
     connectFour.displayPlayerImages();
     cells = document.querySelectorAll('.cell');

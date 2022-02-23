@@ -24,8 +24,8 @@ class Game {
     let previousHoopPosition = 5;
     for (let i = 0; i < gridWidth; i++) {  // gridWidth=8
       let hoop = document.createElement('img');
-      hoop.src = "./images/hoop-black.png";
-      hoop.alt = "baskteball hoop";
+      hoop.setAttribute('src', './images/hoop-black.png');
+      hoop.setAttribute('alt', 'baskteball hoop');
       hoop.classList.add('hoop');
       hoop.setAttribute('id', `hoop-${i}`);
       grid.appendChild(hoop);
@@ -76,7 +76,6 @@ class Game {
       cell.addEventListener('mouseleave', this.ballDisappearOnTop);
       cell.addEventListener('click', this.verifyPlaceCheck);
     });
-    console.log('eventlisteners successfully added');
   }
 
   addHoverEventListener(arrayOfCells) {
@@ -137,6 +136,9 @@ class Game {
       let colNum = event.target.getAttribute('data-id') % 8;
       let firstAvailableCell = this.verify(colNum);
       if (firstAvailableCell) {
+        // looseBallOrange.style.animation = 'shootingArc 1s linear';
+        // animation: shootingArc 1s linear infinite;
+        // swishAudio.play();
         this.slideAndplace(colNum, firstAvailableCell);
         this.computerToMoveNext();
       }
@@ -175,6 +177,7 @@ class Game {
     // Get position of ball-start (top hidden row cell)
     let startingCell = document.querySelector(`div[data-id='${columnNumber}']`)
     let xPositionStart = startingCell.getBoundingClientRect().left  // same as end
+    // let xPositionStart = startingCell.getBoundingClientRect().left  
     this.yPositionStart = startingCell.getBoundingClientRect().top
     let yPositionEnd = cellToFill.getBoundingClientRect().top
 

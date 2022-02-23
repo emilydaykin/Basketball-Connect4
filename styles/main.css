@@ -13,21 +13,16 @@
 
 * {
   box-sizing: border-box;
-  /* margin: 0; */
   font-family: 'Poppins', sans-serif;
 }
 body {
-  /* margin: 0; */
-  /* margin-bottom: 20px; */
   position: relative;
-  /* overflow-y: hidden; */
-  /* background-image: url('../images/court_bball7.jpeg'); */
   background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
       url("../images/court_bball7.jpeg");
   background-repeat: no-repeat;
   background-position: contain;
   background-size: cover;
-  background-position: center bottom;
+  background-position: center 30%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -37,18 +32,27 @@ body {
 }
 main {
   display: flex;
-  /* flex-direction: column; */
-  /* align-items: center; */
   justify-content: center;
-  /* align-items: flex-end; */
 }
 
 .loose-ball {
   width: calc(0.75*var(--cell-width));
   position: absolute;  /* relative to body */
-  top: 0;
-  left: 0;
   z-index: 1;
+}
+
+.orange-ball {
+  top: 395px;
+  /* left: 424px; */
+  left: 560px;
+  /* animation: shootingArcLeftToRight 1s linear infinite; */
+}
+
+.blue-ball {
+  top: 375px;
+  /* left: 1436px; */
+  left: 1300px;
+  /* animation: shootingArcRightToLeft 1s linear infinite; */
 }
 
 .logo {
@@ -57,17 +61,15 @@ main {
   margin-top: 15px;
   margin-left: -23px;
   transform: rotate(-45deg);
+  z-index: 1;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   margin-top: -10px;
-  /* width: 1200px; */
   min-width: 1400px;
   position: relative;
-  /* display: flex; */
-  /* justify-content: center; */
 }
 
 h1 {
@@ -100,31 +102,27 @@ h1 {
 .scoring {
   display: flex;
   flex-direction: column;
-  /* width: 55%; */
-  /* width: 100%; */
-  /* justify-content: flex-end; */
-  /* padding-right: 90px; */
   align-items: center;
   justify-content: center;
   padding-bottom: 35px;
-  /* height: 100%; */
-  /* margin-top: -40px; */
-  /* margin-bottom: 10px; */
 }
 
 .scoreboard {
   display: flex;
   align-items: center;
   padding-bottom: 15px;
+  animation: fadein 2s;
 }
 
 .score {
   font-size: 50px;
   color: #fff;
+  animation: fadein 2s;
 }
 
 .score-divider {
   color: #fff;
+  animation: fadein 2s;
 }
 
 .player1Name {
@@ -133,7 +131,8 @@ h1 {
 }
 
 .player2Name {
-  color: var(--navy-blue);
+  /* color: var(--navy-blue); */
+  color: #0095FD;
   font-weight: bold;
 }
 
@@ -143,7 +142,6 @@ h1 {
   align-items: center;
   padding: 0 60px; 
   width: 40%;
-  
 }
 
 .btn {
@@ -158,9 +156,6 @@ h1 {
 .btn:active {
   transform: scale(0.98);
 }
-/* .mode2players {
-  border-radius: 6px;
-} */
 
 .mode1player,
 .mode2players {
@@ -222,55 +217,37 @@ h1 {
   border: 1px solid var(--navy-blue);
 }
 
-/* .new-game:disabled, .new-game:hovered, {
-  background-color: azure;
-}  */
-
-
-
 .game {
-  /* background-color: #000; */
-  /* z-index: -1; */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin: 10px 40px 0 40px; */
   margin-top: -10px;
-  /* margin-bottom: 10px; */
-  /* margin: -10px 40px; */
-  /* margin-bottom: 0; */
-  /* height: 500px; */
   padding: 75px 50px;
   /* border: 3px solid green; */
-  /* height: 530px; */
   max-width: 1350px;
   border-radius: 30px;
+  opacity: 90%;
 }
 
 
 .jordan {
   width: 190px;
+  animation: fadein 2s;
 }
 
 .kobe, .silhouette {
   width: 230px;
+  animation: fadein 2s;
 }
 
 .player-1-image {
   /* border: 2px solid blue; */
-  /* box-shadow:  */
-  /* box-shadow: 0 4px 2px -2px gray; */
-  /* height: 420px; */
-  /* width: 180px; */
   align-self: flex-end;
   padding-left: 60px;
 }
 
 .player-2-image {
   /* border: 2px solid blue; */
-  /* box-shadow: 0 4px 2px -2px gray; */
-  /* height: 420px; */
-  /* width: 180px; */
   align-self: center;
   padding-right: 60px;
 }
@@ -280,25 +257,24 @@ h1 {
   display: none;
 }
 
-.empty {
+/* .empty {
   height: 15.5%;
   width: 100%;
-  /* box-shadow: 0 0 8px 8px white inset; */
-}
-.court {
-  height: 84.5%;
-  width: 100%;
+} */
+
+/* .court { */
+  /* height: 84.5%; */
+  /* width: 100%; */
   /* box-shadow: 0 0 10px 10px white inset; */
-  box-shadow: 0 0 10px 10px rgba(0,0,0,0.5) inset;
-}
+  /* box-shadow: 0 0 10px 10px rgba(0,0,0,0.5) inset; */
+  /* border-radius: 50px; */
+/* } */
+
 .grid {
-  background-image: url('../images/court_bball4_new.jpeg');
+  /* background-image: url('../images/court_bball4_new.jpeg'); */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top 74px right 0;
-
-  /* border-radius: 5px; */
-  /* background-position: center; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -306,7 +282,6 @@ h1 {
   height: 475px;
   width: 830px; /* 837 */
   position: relative;
-  /* padding: 0 7px; */
 }
 
 .cell {
@@ -315,8 +290,8 @@ h1 {
   width: var(--cell-width);
   margin: 1px 4px;
   border-radius: 10px;
-  /* transform: translateX(300%); */
-  transition: transform 0.4s ease;
+  animation: fadein 4.5s;
+
 }
 
 /* div#orange.hovered */
@@ -331,7 +306,6 @@ h1 {
 }
 
 .hovered-blue {
-  /* background-image: url('../images/bball_blue-cropped.svg'); */
   background-image: url('../images/basketball_navy.png');
   background-repeat: no-repeat;
   background-position: center;
@@ -352,15 +326,7 @@ div[data-id="7"] {
   /* border: 1px dashed #ededed; */
   border: none;
   background-color: transparent;
-  /* z-index: -1; */
   margin-bottom: 4px;
-  /* background-image: url('../images/hoop.png'); */
-  /* background-repeat: no-repeat; */
-  /* background-position: center; */
-  /* background-size: var(--hoop-size); */
-  /* height: 60px; */
-  /* position: absolute; */
-  /* top: 100px; */
 }
 
 .hoop {
@@ -369,32 +335,10 @@ div[data-id="7"] {
   /* left: 231px; */
   position: absolute;
   z-index: 0;
-}
+  /* transition: 1s ease-in-out; */
+  animation: fadein 2s;
 
-/* .hoop#hoop-0 {
-  left: 5px;
 }
-.hoop#hoop-1 {
-  left: 108px;
-}
-.hoop#hoop-2 {
-  left: 211px;
-}
-.hoop#hoop-3 {
-  left: 314px;
-}
-.hoop#hoop-4 {
-  left: 417px;
-}
-.hoop#hoop-5 {
-  left: 520px;
-}
-.hoop#hoop-6 {
-  left: 623px;
-}
-.hoop#hoop-7 {
-  left: 726px;
-} */
 
 div[data-id="40"], 
 div[data-id="41"],
@@ -463,12 +407,35 @@ div[data-id="47"] {
   100% {
     background-size: 80%;
   }
-  /* entire cell grows */
-
-  /* 50%{
-    transform: scale(2); 
-  */
 }
+
+@keyframes shootingArcRightToLeft {
+    0% { 
+      transform: rotate(0deg) translateX(150px) rotate(0deg);
+    }
+    100%{
+      transform: rotate(-180deg) translateX(150px) rotate(180deg);
+    }
+}
+@keyframes shootingArcLeftToRight {
+    0% { 
+      transform: rotate(-180deg) translateX(150px) rotate(180deg);
+    }
+    100%{
+      transform: rotate(0deg) translateX(150px) rotate(0deg);
+    }
+}
+
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 
 /* Responsive design */
 /*   - medium screens: make whole grid-wrapper smaller */
