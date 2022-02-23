@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* overflow: hidden; */
+  margin: 0;
+}
+
+.background {
+  background-image: url('../images/court_bball8.jpeg');
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+  z-index: -1;
+  filter: blur(30px);
+}
+
+.loading-text {
+  font-size: 60px;
+  color: #fff;
+}
+
+a {
+  border: 5px solid purple;
+  text-decoration: none;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1.75px;
+  padding: 20px 30px;
+  animation: fadein 2s;
+  animation: pulsateButton 2s infinite;
+}
+
+a:hover{
+  background-color: purple;
+  border: 5px solid #7007b5;
+}
+
+a:active {
+  transform: scale(0.98);
+}
+
+.hide {
+  display: none;
+}
+
+@keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes pulsateButton {
+  50% {transform: scale(1.4);}
+}

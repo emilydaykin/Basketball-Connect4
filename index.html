@@ -5,64 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../images/bball_orange-cropped.svg">
-  <!-- <link rel="stylesheet" href="./styles/keyframes.css"> -->
-  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./styles/start.css">
   <title>Basketball Connect 4</title>
 </head>
 <body>
-  <header>
-    <img class="logo" src="../images/logo2.jpeg" alt="basketball connect4 logo">
-    <h1>Basketball <br/> Connect 4</h1>
-    <section class="scoring">
-      <div class="scoreboard">
-        <div>
-          <span class="player1Name"></span>
-          <span class="score p1"></span>
-        </div>
-        <div class="score-divider"></div>
-        <div>
-          <span class="score p2"></span>
-          <span class="player2Name"></span>
-        </div>
-      </div>
-      <div class="winner-announced"></div>
-    </section>
-    <section class="buttons">
-      <div class="play-mode">
-        <button class="mode1player btn flash">1-Player Mode</button>
-        <button class="mode2players btn flash">2-Player Mode</button>
-      </div>
-      
-      <div class="game-controls">
-        <button class="new-game btn" disabled>New Game</button>
-        <button class="new-tournament btn" disabled>New Tournament</button>
-      </div>
-    </section>
-  </header>
-  <main>
-    <section class="game">
-      <div class="player-1-image">
-        <img class="jordan hide" src="../images/jordan.png" alt="">
-      </div>
-      <img class="hide loose-ball orange-ball" src="./images/bball_orange-cropped.svg" alt="orange basketball">
-      <img class="hide loose-ball blue-ball" src="./images/bball_blue-cropped.svg" alt="blue basketball">
-      <div class="grid-wrapper">
-        <!-- <audio src="./sounds/swish.wav"></audio> -->
-        <div class="grid">
-          <div class="empty"></div>
-          <div class="court"></div>
-          <!-- autogenerate 48 <div class='cell'></div>s -->
-        </div>
-      </div>
-      <div class="player-2-image">
-        <img class="kobe hide" src="../images/kobe-purple.png" alt="">
-        <img class="silhouette hide" src="../images/shooting_silhouette_blue-cropped.svg" alt="">
-      </div>
-    </section>
-  </main>
-  <h2 class="small-screen-message">Please widen your screen for an optimal playing experience.<span>(Currently only available on desktop.)</span></h2>
-  <script src="./scripts/components/gridOverview.js"></script>
-  <script src="./scripts/components/game.js"></script>
-  <script src="./scripts/app.js"></script>
+  <section class="background"></section>
+    <div class="loading-text">0%</div>
+    <br/>
+    <a class="hide" href="game.html">Start Game</a>
+  <script src="./scripts/start.js"></script>
 </body>
 </html>
