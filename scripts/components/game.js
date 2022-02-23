@@ -157,7 +157,7 @@ class Game {
     looseBall.style.top = `${this.yPositionStart + 1}px`;
 
     // 50 because ~0.5*cellHeight, so that the 'animation' is smooth at the end
-    if (this.yPositionStart > yPositionEnd) {
+    if (this.yPositionStart > yPositionEnd + 20) {
       clearInterval(this.slide);
       cellToFill.classList.add('filled');
       cellToFill.setAttribute('id', ballColour); 
