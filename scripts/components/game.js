@@ -17,6 +17,14 @@ class Game {
       cellDiv.classList.add('cell');
       cellDiv.setAttribute('data-id', i);
       this.grid.appendChild(cellDiv);
+      if (i < 8) {
+        let hoop = document.createElement('img');
+        hoop.src = "./images/hoop-cropped.png";
+        hoop.alt = "baskteball hoop";
+        hoop.classList.add('hoop');
+        hoop.setAttribute('id', `hoop-${i}`);
+        grid.appendChild(hoop);
+      }
     }
   }
 

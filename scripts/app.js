@@ -50,14 +50,20 @@ const game = new Game(grid);
 const setUpTheGame = (selectedMode) => {
     modeSelected = selectedMode
     if (selectedMode === '1player') {
+      modeSelected = '1player'
+      button1player.id = 'highlight';
+      button2players.id = 'unhighlight';      
       button2players.disabled = true;
-      button1player.classList.add('highlight');
       game.initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
     } else {
+      modeSelected = '2player'
+      button2players.id = 'highlight';
+      button1player.id = 'unhighlight';
       button1player.disabled = true;
-      button2players.classList.add('highlight');
       game.initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
     }
+    button1player.classList.remove('flash');
+    button2players.classList.remove('flash');
     game.createOrResetGrid();
     cells = document.querySelectorAll('.cell');
     game.playGame(cells);
