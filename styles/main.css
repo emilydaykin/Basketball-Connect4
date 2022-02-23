@@ -7,6 +7,8 @@
   --orange-dark: #FF7B23;
   --orange-light: #FF9908;
   --navy-blue: #00007F;
+  /* --navy-blue: #00159d; */
+  /* --navy-blue: #0024cb; */
 }
 
 * {
@@ -183,7 +185,8 @@ h1 {
   border: none;
   background-color: none;
   font-weight: normal;
-  color: #9e9e9e; 
+  /* color: #9e9e9e;  */
+  color: #d4d4d4; 
   cursor: none;
 }
 
