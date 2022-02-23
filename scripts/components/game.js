@@ -178,6 +178,8 @@ class Game {
       newTournaBtn.disabled = false;
       turn = modeSelected === '2player' ? 'player' : null;
       this.updateScore();  // does nothing if winner = null
+      newGameBtn.classList.add('flash');
+      newTournaBtn.classList.add('flash');
       ifNewGameClickAllowed();
     } else {
       gameStatus = 'ongoing';
@@ -211,7 +213,8 @@ class Game {
     // Match consecutive 1s precisely 3 or more times:
     const regex = /1{3,}/g;
     if (differences.join('').match(regex) >= 1) {
-      winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (horizontal)`;
+      // winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (horizontal)`;
+      this.getWinnerDeclaration()
       winner = ballColour;
       // get winning cells:
       /// get array of the string of differences split by 3+ consecutive ones:
@@ -268,7 +271,8 @@ class Game {
         console.log('direction invalid');
     }
     if (winningCondition) {
-      winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (${direction})`;
+      // winnerAnnounced.innerText = `${ballColour} is the WINNER!!! (${direction})`;
+      this.getWinnerDeclaration()
       winner = ballColour;
       theWinningCells = filteredCells.slice(0, 4);
     }
@@ -324,6 +328,14 @@ class Game {
     this.switchTurnOrEndGame();
   }
   
+  getWinnerDeclaration() {
+    if (modeSelected === '1player') {
+      winnerAnnounced.innerText = `${ballColour === 'orange' ? 'You are' : 'Your mysterious opponent is'} the WINNER!!!`;
+    } else {
+      winnerAnnounced.innerText = `${ballColour === 'orange' ? 'Player 1' : 'Player 2'} is the WINNER!!!`;
+    }
+  }
+
   switchTurnOrEndGame() {
     let totalCellsFilled = document.querySelectorAll('.filled').length;
     // Other player turn: change ball colour;

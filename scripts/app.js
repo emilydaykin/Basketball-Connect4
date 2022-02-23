@@ -96,8 +96,8 @@ const ifNewGameClickAllowed = () => {
 }
 
 newTournaBtn.addEventListener('click', () => {
-  if (window.confirm("Are you sure you want to start a new tournament? ",
-    "This will reset the scoreboard, and you'll have to reselect a game mode.")) {
+  const text = "Are you sure you want to start a new tournament? \nThis will reset the scoreboard, and you'll have to re-select a game mode."
+  if (window.confirm(text)) {
     window.location.reload();
   }
 })
