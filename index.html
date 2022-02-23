@@ -8,36 +8,44 @@
   <title>Basketball Connect 4</title>
 </head>
 <header>
-  <h1>Basketball Connect 4</h1>
-</header>
-<body>
+  <img class="logo" src="../images/logo2.jpeg" alt="basketball connect4 logo">
+  <h1>Basketball <br/> Connect 4</h1>
   <section class="scoring">
-    <div>
-      <span class="player1Name"></span>
-      <span class="score p1"></span>
+    <div class="scoreboard">
+      <div>
+        <span class="player1Name"></span>
+        <span class="score p1"></span>
+      </div>
+      <div class="score-divider"></div>
+      <div>
+        <span class="score p2"></span>
+        <span class="player2Name"></span>
+      </div>
     </div>
-    <div class="score-divider"></div>
-    <div>
-      <span class="score p2"></span>
-      <span class="player2Name"></span>
-    </div>
+    <div class="winner-announced"></div>
   </section>
   <section class="buttons">
     <div class="play-mode">
-      <button class="mode1player btn">1-Player Mode</button>
-      <button class="mode2players btn">2-Player Mode</button>
+      <button class="mode1player btn flash">1-Player Mode</button>
+      <button class="mode2players btn flash">2-Player Mode</button>
     </div>
-    <div class="winner-announced"></div>
+    
     <div class="game-controls">
       <button class="new-game btn" disabled>New Game</button>
       <button class="new-tournament btn" disabled>New Tournament</button>
     </div>
   </section>
+</header>
+<body>
   <section class="game">
-    <div class="player-1-image"></div>
+    <div class="player-1-image">
+      <img class="jordan" src="../images/jordan.png" alt="">
+    </div>
     <img class="hide loose-ball orange-ball" src="./images/bball_orange-cropped.svg" alt="orange basketball">
     <img class="hide loose-ball blue-ball" src="./images/bball_blue-cropped.svg" alt="blue basketball">
     <div class="grid-wrapper">
+      <!-- <img class="hoop" src="../images/hoop.png" alt="basketball hoop">
+      <img class="hoop" src="../images/hoop.png" alt="basketball hoop"> -->
       <div class="grid">
         <!-- autogenerate 48 <div class='cell'></div>s -->
       </div>

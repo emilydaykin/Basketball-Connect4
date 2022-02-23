@@ -71,6 +71,8 @@ button2players.addEventListener('click', () => setUpTheGame('2player'));
 const ifNewGameClickAllowed = () => {
   newGameBtn.addEventListener('click', () => {
     // Once it can be clicked on (when there is a winner):
+    newGameBtn.classList.remove('flash');
+    newTournaBtn.classList.remove('flash');
     scoreUpdated = false;
     winnerAnnounced.innerText = '';
     game.createOrResetGrid();
@@ -93,6 +95,5 @@ newTournaBtn.addEventListener('click', () => {
     window.location.reload();
   }
 })
-
 
 

@@ -22,6 +22,7 @@ The traditional Connect Four game with a basketball twist. (Link to live game wh
 - Swish sound when each ball goes in each column.
 - Grid background will be a basketball court on page load, then each cell will appear to fill out the grid.
 - Either side of the grid will display player images (MJ/Kobe/Lebron) shooting. For the 1-player mode, one of the players will be a silhouette shooting
+- Computer to make calculated moves rather than random ones
 
 ### V2:
 - Users select which hoop they want to drop the ball down via clicking on the players
@@ -29,7 +30,10 @@ The traditional Connect Four game with a basketball twist. (Link to live game wh
 
 
 ## Approach Taken:
-- Pseudocoded all the JS before beginning any coding (comments in app.js and excalidraw)
+- Pseudocoded 90% the JS before beginning any coding (comments in app.js and excalidraw). The 10% with event listeners interacting were too complicated to picture without any code, so that part was figured out along the way
+- Minimal HTML and CSS to begin with; prioritised JS
+- Had a functioning version of the game in JS first before doing a whole codebase refactor into classes
 
 
 ## Unsolved problems:
+- In the 2-player set up, if the mouse hover stays in the same cell as the one the previous turn clicked on, the ball doesn't appear at the top.
