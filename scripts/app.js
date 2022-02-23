@@ -65,8 +65,7 @@ const setUpTheGame = (selectedMode) => {
       button1player.disabled = true;
       connectFour.initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
     }
-    button1player.classList.remove('flash');
-    button2players.classList.remove('flash');
+    cleanUpButtons();
     connectFour.createOrResetGrid();
     gameWrapper.style.backgroundColor = '#000';
     grid.style.backgroundImage = "url('../images/court_bball4_new.jpeg')";
@@ -112,4 +111,10 @@ newTournaBtn.addEventListener('click', () => {
   }
 })
 
+function cleanUpButtons() {
+  button1player.classList.remove('flash');
+  button2players.classList.remove('flash');
+  button1player.classList.remove('start');
+  button2players.classList.remove('start');
+}
 
