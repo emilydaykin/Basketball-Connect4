@@ -5,8 +5,6 @@
 // - MAGICALLY FIXED: when hovering over FIRST (hidden) row, the ball spazzes
 // - after cell clicked, if mouse stays on same cell, ball doesnt 
 //   appear at the top
-// - if user double clicks many times (while interval slide still
-//   going), many turns get played in same cell.
 
 
 const grid = document.querySelector('.grid');

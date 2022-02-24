@@ -91,7 +91,7 @@ class Game {
       cell.removeEventListener('mouseleave', this.ballDisappearOnTop);
     });
   }
-
+  
   playGame(cells) {
     if (turn === 'computer') {
       this.computerToMoveNext();
@@ -136,6 +136,7 @@ class Game {
       let colNum = event.target.getAttribute('data-id') % 8;
       let firstAvailableCell = this.verify(colNum);
       if (firstAvailableCell) {
+        cells.forEach((cell) => cell.removeEventListener('click', this.verifyPlaceCheck));
         // looseBallOrange.style.animation = 'shootingArc 1s linear';
         // animation: shootingArc 1s linear infinite;
         // swishAudio.play();
@@ -192,7 +193,12 @@ class Game {
     this.lB = looseBall;
     this.fAC = firstAvailableCell;
 
+    // setTimeout(thingToDo, delay)
+    // setInterval(thingToRepeatedlyDo, everySomethingSeconds)
+
     this.slide = setInterval(() => this.slideBall(this.cN, this.cTF, this.yE, this.lB, this.fAC), 1)
+    // let setIntervalFunction = () => this.slide;
+    // setTimeout(() => setIntervalFunction(), 2000);
   }
 
   checkGameStatus() {
@@ -366,6 +372,7 @@ class Game {
     // if no winner and board not filled:
     if (!winner && totalCellsFilled < 40) {
       ballColour = ballColour === 'orange' ? 'blue' : 'orange';
+      cells.forEach((cell) => cell.addEventListener('click', this.verifyPlaceCheck));
       if (modeSelected === '1player') {
         turn = turn === 'player' ? 'computer' : 'player';
       }
