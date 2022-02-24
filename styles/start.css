@@ -42,13 +42,13 @@ a {
   padding: 20px 30px;
   animation: fadein 2s;
   animation: pulsateButton 2s infinite;
-  /* background-color: rgba(0,0,0,0.5); */
   backdrop-filter: blur(10px);
 }
 
 a:hover{
-  background-color: purple;
   border: 5px solid #7007b5;
+  background-color: rgba(128,0,128,0.7);
+  /* backdrop-filter: blur(50px); */
 }
 
 a:active {
