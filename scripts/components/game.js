@@ -122,11 +122,11 @@ class Game {
       // -- to be implemented later --
       //
       // scan whole grid for orange cells
-      if (document.querySelectorAll('.filled').length >=5) {
+      if (document.querySelectorAll('.filled').length >= 5) {
         const orangeElements = document.querySelectorAll('#orange');
-        // console.log('orange elements:', orangeElements);
         const orangeCells = [...orangeElements].map((element) => element.dataset.id);
         console.log('orange cells:', orangeCells);
+        // BLOCK VERTICAL WINS:
         // loop through every col: if 3-in-a-row vertical:
         let entireColCells;
         let filteredOrangeColCells;
@@ -135,22 +135,79 @@ class Game {
           filteredOrangeColCells = entireColCells
             .filter((colCell) => orangeCells.includes(String(colCell)))
             .sort((a, b) => a - b);
-          console.log(i, filteredOrangeColCells);
+          // console.log(i, filteredOrangeColCells);
           let last = filteredOrangeColCells[filteredOrangeColCells.length-1];
           let first = filteredOrangeColCells[0];
           // check is cell directly above 3-in-a-row is filled
           let cellAboveThree = document.querySelector(`div[data-id='${first-8}']`)
           // if 3-in-a-row oranges && cell above top one is in grid && empty:
           if (filteredOrangeColCells.length > 2 && last - first === 16 && first - 8 > 7 && !cellAboveThree.classList.contains('filled')) {
-            console.log(`col ${i} has a 3-in-a-row that can be blocked`)
+            // console.log(`col ${i} has a 3-in-a-row that can be blocked`)
             colNum = i;
           }
         }
+        // BLOCK HORIZONTAL WINS:
         if (!colNum) {
-          colNum = Math.floor(Math.random() * 8);
+          let entireRowCells;
+          let filteredOrangeRowCells;
+          for (let i = 0; i < 5; i++) { 
+            entireRowCells = gridOverview.rows[`row${i}`].sort((a, b) => b - a);
+            filteredOrangeRowCells = entireRowCells
+              .filter((rowCell) => orangeCells.includes(String(rowCell)))
+              .sort((a, b) => a - b);
+            console.log(filteredOrangeRowCells);
+  
+            let differences = [];
+            for (let i = 0; i < filteredOrangeRowCells.length - 1; i++) {
+              differences.push(filteredOrangeRowCells[i + 1] - filteredOrangeRowCells[i]);
+            }
+            console.log('differences', differences);
+            // Match consecutive 1s precisely 2 or more times:
+            const regex = /1{2,}/g;
+            if (differences.join('').match(regex) >= 1) {
+              // get array of the string of differences split by 2 consecutive ones:
+              const tmp = differences.join('').split(regex);
+              let consecutiveCells;
+              if (typeof (tmp) === 'object' && tmp.length >= 2) {
+                // 3-in-a-row
+                if ((tmp[0] === '' && tmp[1] === '') || tmp[0] === '') {
+                  consecutiveCells = filteredOrangeRowCells.slice(0, 3);
+                } else if (tmp[1] == '') {  // 4-in-a-row = last 4
+                  consecutiveCells = filteredOrangeRowCells.slice(-3);
+                }
+              }
+              console.log('consecutiveCells', consecutiveCells);
+              if (consecutiveCells) {
+                let first = consecutiveCells[0];
+                let last = consecutiveCells[2];
+                console.log('first', first);
+                console.log('last', last);
+                // check if directly left is a free cell to block:
+                let leftCell = document.querySelector(`div[data-id='${first - 1}']`);
+                let rightCell = document.querySelector(`div[data-id='${last + 1}']`);
+                console.log('leftCell', leftCell);
+                console.log('rightCell', rightCell);
+                if ((first - 1) % 8 <= 4 && !leftCell.classList.contains('filled')) {
+                  colNum = (first - 1) % 8;
+                  console.log('column to fill:', colNum);
+                  console.log('---------horizontal 3 blocked to the left!')
+                  // check if directly right is a free cell to block:
+                } else if ((last + 1) % 8 >= 3 && !rightCell.classList.contains('filled')) {
+                  colNum = (last + 1) % 8;
+                  console.log('---------horizontal 3 blocked to the right!')
+                }
+              }
+            }
+          }
         }
-      } else {  // random move
+        console.log('colNum to fill!!!!', colNum);
+        if (!(colNum || colNum === 0)) {  // `!colNum` won't work since could be zero
+          colNum = Math.floor(Math.random() * 8);
+          console.log('colNum (random) if no vertical or horizontal to block:', colNum);
+        }
+      } else {  // random move if board has <6 cells filled
         colNum = Math.floor(Math.random() * 8);
+        console.log('colNum if no grid < 6:', colNum);
       }
       //
       //
@@ -163,6 +220,7 @@ class Game {
 
   verify(columnNumber) {
     // This modifies original gridOverview
+    console.log('COLUMN TO TRY:', columnNumber);
     const colContents = gridOverview.columns[`column${columnNumber}`].sort((a, b) => b - a);  
     // Get first available cell in that column:
     let firstAvailableCell = colContents.find((cell) => {
@@ -205,7 +263,7 @@ class Game {
     looseBall.style.top = `${this.yPositionStart + 1}px`;
 
     // 50 because ~0.5*cellHeight, so that the 'animation' is smooth at the end
-    if (this.yPositionStart > yPositionEnd + 20) {
+    if (this.yPositionStart > yPositionEnd) {
       clearInterval(this.slide);
       cellToFill.classList.add('filled');
       cellToFill.setAttribute('id', ballColour); 
