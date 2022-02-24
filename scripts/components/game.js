@@ -91,6 +91,18 @@ class Game {
       cell.removeEventListener('mouseleave', this.ballDisappearOnTop);
     });
   }
+
+  addClickEventListener(arrayOfCells) {
+    arrayOfCells.forEach((cell) => {
+      cell.addEventListener('click', this.verifyPlaceCheck);
+    });
+  }
+
+  removeClickEventListener(arrayOfCells) {
+    arrayOfCells.forEach((cell) => {
+      cell.removeEventListener('click', this.verifyPlaceCheck);
+    });
+  }
   
   playGame(cells) {
     if (turn === 'computer') {
@@ -102,12 +114,46 @@ class Game {
   }
 
   computerToMoveNext() {
+    let colNum;
     if (turn === 'computer') {
       // Randomised choice
-      let colNum = Math.floor(Math.random() * 8);
+      // colNum = Math.floor(Math.random() * 8);
       // Smart choice:
       // -- to be implemented later --
-      // verifyPlaceCheckMANPOWER(colNum);
+      //
+      // scan whole grid for orange cells
+      if (document.querySelectorAll('.filled').length >=5) {
+        const orangeElements = document.querySelectorAll('#orange');
+        // console.log('orange elements:', orangeElements);
+        const orangeCells = [...orangeElements].map((element) => element.dataset.id);
+        console.log('orange cells:', orangeCells);
+        // loop through every col: if 3-in-a-row vertical:
+        let entireColCells;
+        let filteredOrangeColCells;
+        for (let i = 0; i < 8; i++) { 
+          entireColCells = gridOverview.columns[`column${i}`].sort((a, b) => b - a);
+          filteredOrangeColCells = entireColCells
+            .filter((colCell) => orangeCells.includes(String(colCell)))
+            .sort((a, b) => a - b);
+          console.log(i, filteredOrangeColCells);
+          let last = filteredOrangeColCells[filteredOrangeColCells.length-1];
+          let first = filteredOrangeColCells[0];
+          // check is cell directly above 3-in-a-row is filled
+          let cellAboveThree = document.querySelector(`div[data-id='${first-8}']`)
+          // if 3-in-a-row oranges && cell above top one is in grid && empty:
+          if (filteredOrangeColCells.length > 2 && last - first === 16 && first - 8 > 7 && !cellAboveThree.classList.contains('filled')) {
+            console.log(`col ${i} has a 3-in-a-row that can be blocked`)
+            colNum = i;
+          }
+        }
+        if (!colNum) {
+          colNum = Math.floor(Math.random() * 8);
+        }
+      } else {  // random move
+        colNum = Math.floor(Math.random() * 8);
+      }
+      //
+      //
       let firstAvailableCell = this.verify(colNum);
       if (firstAvailableCell) {
         this.slideAndplace(colNum, firstAvailableCell);
@@ -136,7 +182,8 @@ class Game {
       let colNum = event.target.getAttribute('data-id') % 8;
       let firstAvailableCell = this.verify(colNum);
       if (firstAvailableCell) {
-        cells.forEach((cell) => cell.removeEventListener('click', this.verifyPlaceCheck));
+        // cells.forEach((cell) => cell.removeEventListener('click', this.verifyPlaceCheck));
+        this.removeClickEventListener(cells);
         // looseBallOrange.style.animation = 'shootingArc 1s linear';
         // animation: shootingArc 1s linear infinite;
         // swishAudio.play();
@@ -173,6 +220,9 @@ class Game {
   }
 
   slideAndplace(columnNumber, firstAvailableCell) {
+    // remove this here again when it's the computer's turn:
+    // cells.forEach((cell) => cell.removeEventListener('click', this.verifyPlaceCheck));
+    this.removeClickEventListener(cells);
     let cellToFill = document.querySelector(`div[data-id='${firstAvailableCell}']`);
 
     // Get position of ball-start (top hidden row cell)
@@ -199,6 +249,7 @@ class Game {
     this.slide = setInterval(() => this.slideBall(this.cN, this.cTF, this.yE, this.lB, this.fAC), 1)
     // let setIntervalFunction = () => this.slide;
     // setTimeout(() => setIntervalFunction(), 2000);
+    
   }
 
   checkGameStatus() {
@@ -372,7 +423,8 @@ class Game {
     // if no winner and board not filled:
     if (!winner && totalCellsFilled < 40) {
       ballColour = ballColour === 'orange' ? 'blue' : 'orange';
-      cells.forEach((cell) => cell.addEventListener('click', this.verifyPlaceCheck));
+      // cells.forEach((cell) => cell.addEventListener('click', this.verifyPlaceCheck));
+      this.addClickEventListener(cells)
       if (modeSelected === '1player') {
         turn = turn === 'player' ? 'computer' : 'player';
       }
