@@ -171,12 +171,12 @@ h1 {
 .start {
   position: absolute;
   top: 180%; /*340px;*/
-  left: 25%;/*340px;*/
+  left: 29%;/*340px;*/
   font-size: 20px;
   z-index: 1;  
 }
 .mode2players.start {
-  left: 50%; /* 560px */
+  left: 51%; /* 560px */
 }
 
 
