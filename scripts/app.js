@@ -51,18 +51,21 @@ let scoreUpdated = false;
 const connectFour = new Game(grid);
 
 const setUpTheGame = (selectedMode) => {
-    modeSelected = selectedMode
+  if (!modeSelected) {  // if already selected, can't be clicked again
+    modeSelected = selectedMode;
     if (selectedMode === '1player') {
       modeSelected = '1player'
       button1player.id = 'highlight';
       button2players.id = 'unhighlight';      
       button2players.disabled = true;
+      button1player.classList.remove('hover');
       connectFour.initialiseScoreboard(player1 = 'You', player2 = 'Mysterious Opponent');
     } else {
       modeSelected = '2player'
       button2players.id = 'highlight';
       button1player.id = 'unhighlight';
       button1player.disabled = true;
+      button2players.classList.remove('hover');
       connectFour.initialiseScoreboard(player1 = 'Player 1', player2 = 'Player 2');
     }
     cleanUpButtons();
@@ -75,6 +78,7 @@ const setUpTheGame = (selectedMode) => {
     cells = document.querySelectorAll('.cell');
     connectFour.playGame(cells);
   }
+}
 
 
 button1player.addEventListener('click', () => setUpTheGame('1player'));

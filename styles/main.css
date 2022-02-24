@@ -155,15 +155,17 @@ h1 {
 .btn:hover {
   cursor: pointer;
 }
-.btn:active {
-  transform: scale(0.98);
-}
 
 .mode1player,
 .mode2players {
   /* background-color: yellow; */
   font-weight: bold;
   background-color: #f7f7f7;
+}
+
+.hover:hover:enabled {
+  background-color: var(--orange-light);
+  border: 3px solid #fff;
 }
 
 .start {
@@ -217,6 +219,11 @@ h1 {
   /* background-color: azure; */
   background-color: var(--navy-blue);
   color: azure;
+}
+
+.new-game:active,
+.new-tournament:active {
+  transform: scale(0.98);
 }
 
 /* buttons */
