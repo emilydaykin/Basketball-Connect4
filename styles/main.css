@@ -38,7 +38,7 @@ main {
 .loose-ball {
   width: calc(0.75*var(--cell-width));
   position: absolute;  /* relative to body */
-  z-index: 1;
+  z-index: 2;
 }
 
 .orange-ball {
@@ -312,6 +312,7 @@ h1 {
   margin: 1px 4px;
   border-radius: 10px;
   animation: fadein 4.5s;
+  z-index: 1;
 
 }
 
