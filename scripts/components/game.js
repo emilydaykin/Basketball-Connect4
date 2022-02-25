@@ -380,7 +380,7 @@ class Game {
 
   checkForAWin(columnNumber, firstAvailableCell) {
 
-    if (document.querySelectorAll('.filled').length >= 5) {
+    if (document.querySelectorAll('.filled').length > 6) {
       const lastPlayedCell = firstAvailableCell;
       const rowNum = Math.floor(lastPlayedCell / 8) - 1;
       const diagUpNum = (lastPlayedCell - 11) % 7;
