@@ -1,5 +1,3 @@
-// This should probably be written programmatically 
-
 const gridOverview = {
   columns: {
     // column number = cellNum % 8
