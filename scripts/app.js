@@ -58,7 +58,7 @@ const setUpTheGame = (selectedMode) => {
     cleanUpButtons();
     connectFour.createOrResetGrid();
     gameWrapper.style.backgroundColor = '#000';
-    grid.style.backgroundImage = "url('../images/court_bball4_new.jpeg')";
+    grid.style.backgroundImage = "url('./images/court_bball4_new.jpeg')";
     gameWrapper.style.animation = 'fadein 1s';
     connectFour.displayHoops();
     connectFour.displayPlayerImages();
