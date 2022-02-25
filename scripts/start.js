@@ -9,8 +9,7 @@ function blurring() {
 
   if (load > 100) {
     clearInterval(int);
-    // loadText.classList.add('hide');
-    loadText.style.display = 'none';
+    loadText.classList.add('hide');
     button.classList.remove('hide');
   }
 
@@ -21,7 +20,6 @@ function blurring() {
 
 let int = setInterval(blurring, 20);
 
-// from Stack Overflow
 const scale = (num, in_min, in_max, out_min, out_max) => {
   return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
