@@ -155,6 +155,15 @@ h1 {
 .btn:hover {
   cursor: pointer;
 }
+/* buttons */
+.btn:disabled {
+  cursor: not-allowed;
+  color: var(--orange-light);
+  opacity: 50%;
+  font-weight: normal;
+  font-size: 12px;
+  border: 1px solid var(--navy-blue);
+}
 
 .mode1player,
 .mode2players {
@@ -224,18 +233,6 @@ h1 {
 .new-game:active,
 .new-tournament:active {
   transform: scale(0.98);
-}
-
-/* buttons */
-.new-game:disabled, 
-.new-tournament:disabled, 
-.mode2players:disabled {
-  cursor: not-allowed;
-  color: var(--orange-light);
-  opacity: 50%;
-  font-weight: normal;
-  font-size: 12px;
-  border: 1px solid var(--navy-blue);
 }
 
 .game {
