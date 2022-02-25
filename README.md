@@ -1,5 +1,5 @@
 # Basketball Connect 4
-The traditional Connect Four game with a basketball twist. (Link to live game when finished)
+The traditional Connect Four game with a basketball twist. [Play it here!](https://emilydaykin.github.io/Basketball-Connect4/)
 
 <img width="1251" alt="Game Visual" src="./images/project1-bballc4-gameDemo.png">
 
