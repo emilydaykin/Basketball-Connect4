@@ -26,20 +26,20 @@ HTML, CSS and vanilla Javascript; Git; GitHub Pages for deployment.
 
 ## Game Features:
 ### MVP (v0):
-- A working game of connect 4 (with correct logic to check for a win) in an 8x5 grid.
-- The counters will be orange and blue basketballs.
-- The balls going into the grid are animated to slide down the grid, rather than just appear in the correct cell.
-- '2-player' mode and a '1-player v computer' mode. Computer will not be intelligent, will only be randomised moves.
-- Scoring: multiple games within a tournament (game score & tournament score).
-- Buttons: start new game, or start new tournament (scoreboard (tracks game wins) is only cleared after new tournament starts).
+- ✔️  A working game of connect 4 (with correct logic to check for a win) in an 8x5 grid.
+- ✔️  The counters will be orange and blue basketballs.
+- ✔️   The balls going into the grid are animated to slide down the grid, rather than just appear in the correct cell.
+- ✔️ '2-player' mode and a '1-player v computer' mode. Computer will not be intelligent, will only be randomised moves.
+- ✔️ Scoring: multiple games within a tournament (game score & tournament score).
+- ✔️ Buttons: start new game, or start new tournament (scoreboard (tracks game wins) is only cleared after new tournament starts).
 
-### Version 1 (v1) - the glitter on top v0:
-- Animation of ball being shot (a perfect arc) from player images to the selected column of the grid.
-- Hoop & backboard images above each column.
-- Swish sound when each ball goes in each column.
-- Grid background will be a basketball court on page load, then each cell will appear to fill out the grid.
-- Either side of the grid will display player images (MJ/Kobe/Lebron) shooting. For the 1-player mode, one of the players will be a silhouette shooting.
-- Computer to make calculated moves rather than random ones.
+### Version 1 (v1):
+- ✖️ Animation of ball being shot (a perfect arc) from player images to the selected column of the grid.
+- ✔️ Hoop & backboard images above each column.
+- ✖️ Swish sound when each ball goes in each column (didn't like the effect in the end).
+- ✔️ Grid background will be a basketball court on page load, then each cell will appear to fill out the grid.
+- ✔️ Either side of the grid will display player images (MJ/Kobe/Lebron) shooting. For the 1-player mode, one of the players will be a silhouette shooting.
+- ✔️ Computer to make calculated moves rather than random ones.
 
 ### V2:
 - Users select which hoop they want to drop the ball down via clicking on the players.
