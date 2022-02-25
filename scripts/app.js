@@ -1,11 +1,6 @@
 // ------------------------------------------------------------------ //
 // ---------------------  Basketball Connect 4  --------------------- //
 // ------------------------------------------------------------------ //
-// BUGS to fix:
-// - MAGICALLY FIXED: when hovering over FIRST (hidden) row, the ball spazzes
-// - after cell clicked, if mouse stays on same cell, ball doesnt 
-//   appear at the top
-
 
 const grid = document.querySelector('.grid');
 const gameWrapper = document.querySelector('.game');
@@ -29,13 +24,7 @@ const silhouette = document.querySelector('.silhouette');
 // Declare fixed variables
 const gridWidth = 8;
 const gridHeight = 5;
-// const vertical = gridWidth;   // +-8
-// const horizontal = 1;
-// const diagUp = gridWidth - 1;  // +-7
-// const diagDown = gridWidth + 1 // +-9
-// 8*6 (extra row at the top for ball to hover)
 const numOfCells = gridWidth * (gridHeight + 1)
-
 
 let modeSelected;  // 1- or 2-player mode
 let ballColour = 'orange';  // orange or blue
@@ -78,10 +67,8 @@ const setUpTheGame = (selectedMode) => {
   }
 }
 
-
 button1player.addEventListener('click', () => setUpTheGame('1player'));
 button2players.addEventListener('click', () => setUpTheGame('2player'));
-
 
 const ifNewGameClickAllowed = () => {
   newGameBtn.addEventListener('click', () => {
@@ -99,7 +86,7 @@ const ifNewGameClickAllowed = () => {
     // 50-50 chance which player (of 2-player game) goes first:
     if (modeSelected === '1player') {
       turn = 'player';
-    } else {  // modeSelected='2player
+    } else {  // modeSelected='2player'
       ballColour = ['orange', 'blue'][Math.floor(Math.random() * 2)];
     }
     connectFour.playGame(cells);
