@@ -3,6 +3,22 @@ The traditional Connect Four game with a basketball twist. [Play it here!](https
 
 <img width="1251" alt="Game Visual" src="./images/project1-bballc4-gameDemo.png">
 
+## Game walkthrough:
+### Landing Page:
+<p align="center">
+  <img src="./images/project1-bballc4-landing.gif" width="60%"  />
+</p>
+
+### 1-player vs 2-player mode:
+<p align="center">
+  <img src="./images/project1-bballc4-1playerDemo.gif" width="49%"  />
+  <img src="./images/project1-bballc4-2playerDemo.gif" width="49%" /> 
+</p>
+
+### Win Condition:
+<p align="center">
+  <img src="./images/project1-bballc4-winDemo.gif" width="60%" /> 
+</p>
 
 ## Tech Stack used:
 HTML, CSS and vanilla Javascript; Git; GitHub Pages for deployment.
@@ -61,23 +77,6 @@ HTML, CSS and vanilla Javascript; Git; GitHub Pages for deployment.
 - **Day 5 (Tues)**: Refactoring JS into classes and styling.
 - **Day 6 (Weds)**: Responsive design and more styling (added new start page upon browser load).
 - **Day 7 (Thurs)**: Attemping the shot arc; adding a tiny bit of AI to the 1-player game, and cleaning up code.
-
-## Game walkthrough:
-### Landing Page:
-<p align="center">
-  <img src="./images/project1-bballc4-landing.gif" width="60%"  />
-</p>
-
-### 1-player vs 2-player mode:
-<p align="center">
-  <img src="./images/project1-bballc4-1playerDemo.gif" width="49%"  />
-  <img src="./images/project1-bballc4-2playerDemo.gif" width="49%" /> 
-</p>
-
-### Win Condition:
-<p align="center">
-  <img src="./images/project1-bballc4-winDemo.gif" width="60%" /> 
-</p>
 
 ## Bugs:
 - If mouse is inside grid as the grid is fading in, ball hover over the hoops will be opaque, rather than translucent as it should be. (Once mouse leaves grid, and comes back in, styling works.)
