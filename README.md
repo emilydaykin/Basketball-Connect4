@@ -1,10 +1,11 @@
 # Project 1: Basketball Connect 4
 The traditional Connect Four game with a basketball twist. (Link to live game when finished)
 
-[image to go here]
+<img width="1251" alt="Game Visual" src="./images/project1-bballc4-gameDemo.png">
+
 
 ## Tech Stack used:
-- HTML, CSS and vanilla Javascript
+HTML, CSS and vanilla Javascript; Git; GitHub Pages for deployment
 
 
 ## Game Features:
@@ -29,11 +30,65 @@ The traditional Connect Four game with a basketball twist. (Link to live game wh
 - The longer users hold down the click for, the further the ball shoots
 
 
+## Code Base:
+- Entire game functionality wrapped in a class
+### Tree:
+
+```
+.
+├── index.html
+├── game.html
+├── styles
+│   ├── main.css
+│   └── start.css
+└── scripts
+    ├── app.js
+    ├── start.js
+    └── components
+        ├── game.js
+        └── gridOverview.js
+```
+
 ## Approach Taken:
 - Pseudocoded 90% the JS before beginning any coding (comments in app.js and excalidraw). The 10% with event listeners interacting were too complicated to picture without any code, so that part was figured out along the way
 - Minimal HTML and CSS to begin with; prioritised JS
 - Had a functioning version of the game in JS first before doing a whole codebase refactor into classes
 
+## Project Overview:
+- **Day 1 (Fri)**: All day pseudocoding and whiteboarding JS logic. Browsed game images
+- **Day 2-3 (Sat-Sun)**: Coded up logic, event listeners, scoring system, 2-player & 1-player modes.
+- **Day 4 (Mon)**: Added ball slide animation with `setInterval`, and fixed bugs all day
+- **Day 5 (Tues)**: Refactoring JS into classes and styling
+- **Day 6 (Weds)**: Responsive design and more styling (added new start page upon browser load)
+- **Day 7 (Thurs)**: Attemping the shot arc; adding a tiny bit of AI to the 1-player game, and cleaning up code
 
-## Unsolved problems:
-- In the 2-player set up, if the mouse hover stays in the same cell as the one the previous turn clicked on, the ball doesn't appear at the top.
+## Game walkthrough:
+### Landing Page:
+<p align="center">
+  <img src="./images/project1-bballc4-landing.gif" width="60%"  />
+</p>
+
+### 1-player vs 2-player mode:
+<p align="center">
+  <img src="./images/project1-bballc4-1playerDemo.gif" width="49%"  />
+  <img src="./images/project1-bballc4-2playerDemo.gif" width="49%" /> 
+</p>
+
+### Win Condition:
+<p align="center">
+  <img src="./images/project1-bballc4-winDemo.gif" width="60%" /> 
+</p>
+
+## Bugs:
+- 
+
+## Wins & Ideals:
+### Wins:
+- Refactored code base into classes, keeping the functions and methods organised and compartmentalised. 
+- `setInterval` challenges overcome: working animation and then embedded in a class
+- Foolproof logic to check for a winner of the game
+
+### Ideals:
+- Animate each turn to have the ball shooting from the players' hands to each corresponding hoop clicked on (shot arc before sliding down each column).
+- Computer AI to be even smarter.
+- More responsive design to allow for mobile/tablet mode
