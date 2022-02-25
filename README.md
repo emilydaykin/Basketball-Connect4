@@ -80,7 +80,7 @@ HTML, CSS and vanilla Javascript; Git; GitHub Pages for deployment
 </p>
 
 ## Bugs:
-- 
+- If mouse is inside grid as the grid is fading in, ball hover over the hoops will be opaque, rather than translucent as it should be. (Once mouse leaves grid, and comes back in, styling works.)
 
 ## Wins & Ideals:
 ### Wins:
