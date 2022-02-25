@@ -1,4 +1,4 @@
-# Project 1: Basketball Connect 4
+# Basketball Connect 4
 The traditional Connect Four game with a basketball twist. (Link to live game when finished)
 
 <img width="1251" alt="Game Visual" src="./images/project1-bballc4-gameDemo.png">
