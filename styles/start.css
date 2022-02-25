@@ -10,7 +10,6 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* overflow: hidden; */
   margin: 0;
 }
 
@@ -48,7 +47,6 @@ a {
 a:hover{
   border: 5px solid #7007b5;
   background-color: rgba(128,0,128,0.7);
-  /* backdrop-filter: blur(50px); */
 }
 
 a:active {
