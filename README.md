@@ -9,7 +9,7 @@ The traditional Connect Four game with a basketball twist. [Play it here!](https
   <img src="./images/project1-bballc4-landing.gif" width="60%"  />
 </p>
 
-### 1-player vs 2-player mode:
+### 1-player vs 2-player Mode:
 <p align="center">
   <img src="./images/project1-bballc4-1playerDemo.gif" width="49%"  />
   <img src="./images/project1-bballc4-2playerDemo.gif" width="49%" /> 
@@ -18,6 +18,12 @@ The traditional Connect Four game with a basketball twist. [Play it here!](https
 ### Win Condition:
 <p align="center">
   <img src="./images/project1-bballc4-winDemo.gif" width="60%" /> 
+</p>
+
+### Responsive Design:
+<p align="center">
+  <img src="./images/responsive_design_medium.png" width="48%"  />
+  <img src="./images/responsive_design_small.png" width="45%" /> 
 </p>
 
 ## Tech Stack used:
